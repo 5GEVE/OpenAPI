@@ -1,0 +1,1720 @@
+swagger: "2.0"
+info:
+  version: "1.1.0-impl:etsi.org:ETSI_NFV_OpenAPI:1"
+  title: "SOL005 - NS Lifecycle Management Interface"
+  description: >
+    SOL005 - NS Lifecycle Management Interface
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to and has not been
+    approved by the ETSI NFV ISG. In case of discrepancies the published ETSI
+    Group Specification takes precedence.
+    Please report bugs to https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
+  license:
+    name: "ETSI Forge copyright notice"
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  contact:
+    name: "NFV-SOL WG"
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V2.5.1
+  url: https://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/02.05.01_60/gs_NFV-SOL005v020501p.pdf
+basePath: /nslcm/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  ###############################################################################
+  # API Versions                                                                #
+  ###############################################################################
+  '/api-versions':
+    $ref: '../endpoints/SOL005_endpoints.yaml#/endpoints/api-versions'
+
+  ###############################################################################
+  # NSInstances                                                                 #
+  ###############################################################################
+  '/ns_instances':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.2
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+    post:
+      summary: Create a NS instance resource.
+      description: >
+        The POST method creates a new NS instance resource.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/CreateNsRequest"
+          description: >
+            The NS creation parameters, as defined in clause 6.5.2.7.
+      responses:
+        201:
+          description: >
+            201 Created
+
+            A NS Instance identifier was created successfully.
+            The response body shall contain a representation of
+            the created NS instance, as defined in clause 6.5.2.8.
+            The HTTP response shall include a "Location" HTTP
+            header that contains the resource URI of the created
+            NS instance.
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message
+                body.
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        416:
+          $ref: "../responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+    get:
+      summary: Query multiple NS instances.
+      description: >
+        Query NS Instances.
+
+        The GET method queries information about multiple NS instances.
+        This method shall support the URI query parameters, request and response data structures, and response codes, as
+        specified in the Tables 6.4.2.3.2-1 and 6.4.2.3.2-2.
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          type: string
+          description: >
+            Attribute-based filtering expression according to clause 4.3.2.
+            The NFVO shall support receiving this parameter as part of the URI
+            query string. The OSS/BSS may supply this parameter.
+            All attribute names that appear in the NsInstance and in data types
+            referenced from it shall be supported by the NFVO in the filter expression.
+        - name: all_fields
+          in: query
+          required: false
+          type: string
+          description: >
+            Include all complex attributes in the response. See clause 4.3.3 for details.
+            The NFVO shall support this parameter.
+        - name: fields
+          in: query
+          required: false
+          type: string
+          description: >
+            "Complex attributes to be included into the response. See clause 4.3.3 for
+            details. The NFVO should support this parameter."
+        - name: exclude_fields
+          in: query
+          required: false
+          type: string
+          description: >
+            "Complex attributes to be excluded from the response. See clause 4.3.3 for
+            details. The NFVO should support this parameter."
+        - name: exclude_default
+          in: query
+          required: false
+          type: string
+          description: >
+            "Indicates to exclude the following complex attributes from the response.
+            See clause 4.3.3 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the NsInstance structure in
+            the response body if this parameter is provided, or none of the parameters
+            "all_fields," "fields", "exclude_fields", "exclude_default" are provided:
+            - vnfInstances
+            - pnfInfo
+            - virtualLinkInfo
+            - vnffgInfo
+            - sapInfo
+            - nsScaleStatus
+            - additionalAffinityOrAntiAffinityRules"
+        - name: nextpage_opaque_marker
+          in: query
+          description: >
+            Marker to obtain the next page of a paged response. Shall be supported by the NFVO
+            if the NFVO supports alternative 2 (paging) according to clause 4.7.2.1 for this resource.
+          required: false
+          type: string
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            Information about zero or more NS instances was queried successfully.
+            The response body shall contain in an array the representations of
+            zero or more NS instances, as defined in clause 6.5.2.8.
+            If the NFVO supports alternative 2 (paging) according to
+            clause 4.7.2.1 for this resource, inclusion of the Link HTTP header
+            in this response shall follow the provisions in clause 4.7.2.3.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            Link:
+              description: >
+                Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+              type: string
+              maximum: 1
+              minimum: 0
+          schema:
+            type: array
+            items:
+              properties:
+                NsInstance:
+                  $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        416:
+          $ref: "../responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Individual NS instance                                                      #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.3
+    parameters:
+      - name: nsInstanceId
+        description: >
+          Identifier of the NS instance.
+        in: path
+        type: string
+        required: true
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+    get:
+      summary: Read an individual NS instance resource.
+      description: >
+        The GET method retrieves information about a NS instance by
+        reading an individual NS instance resource.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            Information about an individual NS instance was queried successfully.
+            The response body shall contain a representation of the NS instance.
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message body.
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        416:
+          $ref: "../responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+    delete:
+      summary: Delete NS instance resource.
+      description: >
+        Delete NS Identifier
+
+        This method deletes an individual NS instance resource.
+      responses:
+        204:
+          description: >
+            204 No Content
+
+            The NS instance resource and the associated NS
+            identifier were deleted successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        412:
+          $ref: "../responses/SOL005_resp.yaml#/responses/412"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Instantiate NS task                                                         #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}/instantiate':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.4
+    parameters:
+      - name: nsInstanceId
+        description: >
+          Identifier of the NS instance to be instantiated.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Instantiate a NS.
+      description: >
+        The POST method requests to instantiate a NS instance resource.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/InstantiateNsRequest"
+          description: >
+            Parameters for the instantiate NS operation, as defined in clause 6.5.2.10.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        416:
+          $ref: "../responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Scale NS task                                                               #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}/scale':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.5
+    parameters:
+      - name: nsInstanceId
+        description: >
+          Identifier of the NS instance to be scaled.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Scale a NS instance.
+      description: >
+        The POST method requests to scale a NS instance resource.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/ScaleNsRequest"
+          description: >
+            Parameters for the scale NS operation, as defined in clause 6.5.2.13.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Update NS task                                                              #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}/update':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.6
+    parameters:
+      - name: nsInstanceId
+        description: >
+          Identifier of the NS instance to be updated.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Updates a NS instance.
+      description: >
+        Scale NS instance.
+        The POST method requests to scale a NS instance resource.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/UpdateNsRequest"
+          description: >
+            Parameters for the update NS operation, as defined in clause 6.5.2.11.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Heal NS task                                                                #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}/heal':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.7
+    parameters:
+      - name: nsInstanceId
+        description: >
+          Identifier of the NS instance to be healed.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Heal a NS instance.
+      description: >
+        The POST method requests to heal a NS instance resource.
+        This method shall follow the provisions specified in the Tables 6.4.7.3.1-1 and
+        6.4.7.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/HealNsRequest"
+          description: >
+            Parameters for the heal NS operation, as defined in clause 6.5.2.12.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Terminate NS task                                                           #
+  ###############################################################################
+  '/ns_instances/{nsInstanceId}/terminate':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.8
+    parameters:
+      - name: nsInstanceId
+        description: >
+          The identifier of the NS instance to be terminated.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Terminate a NS instance.
+      description: >
+        Terminate NS task.
+        The POST method terminates a NS instance. This method can only be
+        used with a NS instance in the INSTANTIATED
+        state. Terminating a NS instance does not delete the NS instance identifier,
+        but rather transitions the NS into the NOT_INSTANTIATED state.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Tables 6.4.8.3.1-1 and 6.8.8.3.1-2.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/TerminateNsRequest"
+          description: >
+            The terminate NS request parameters, as defined in  clause 6.5.2.14.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # NS LCM operation occurrences                                                #
+  ###############################################################################
+  '/ns_lcm_op_occs':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.9
+    get:
+      summary: Query multiple NS LCM operation occurrences.
+      description: >
+        Get Operation Status.
+        The client can use this method to query status information about multiple NS lifecycle management operation
+        occurrences.
+        This method shall follow the provisions specified in the Tables 6.4.9.3.2-1 and 6.4.9.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          type: string
+          description: >
+            Attribute-based filtering expression according to clause 4.3.2.
+            The NFVO shall support receiving this parameter as part of the URI query string.
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the NsLcmOpOcc and in data types referenced
+            from it shall be supported by the NFVO in the filter expression.
+        - name: fields
+          in: query
+          required: false
+          type: string
+          description: >
+            Complex attributes to be included into the response. See clause 4.3.3 for details. The
+            NFVO should support this parameter.
+        - name: exclude_fields
+          in: query
+          required: false
+          type: string
+          description: >
+            Complex attributes to be excluded from the response. See clause 4.3.3 for details.
+            The NFVO should support this parameter.
+        - name: exclude_default
+          in: query
+          required: false
+          type: string
+          description: >
+            Indicates to exclude the following complex attributes from the response. See
+            clause 4.3.3 for details. The NFVO shall support this parameter.
+            The following attributes shall be excluded from the NsLcmOpOcc structure in the
+            response body if this parameter is provided:
+            - operationParams
+            - changedVnfInfo
+            - error
+            - resourceChanges
+        - name: nextpage_opaque_marker
+          in: query
+          description: >
+            Marker to obtain the next page of a paged response. Shall be supported by the NFVO
+            if the NFVO supports alternative 2 (paging) according to clause 4.7.2.1 for this resource.
+          required: false
+          type: string
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            Status information for zero or more NS lifecycle management operation
+            occurrences was queried successfully.
+            The response body shall contain in an array the representations of
+            zero or more NS instances, as defined in clause 5.5.2.13.
+            If the NFVO supports alternative 2 (paging) according to
+            clause 4.7.2.1 for this resource, inclusion of the Link HTTP header
+            in this response shall follow the provisions in clause 4.7.2.3.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            Link:
+              description: >
+                Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+              type: string
+              maximum: 1
+              minimum: 0
+          schema:
+            type: array
+            items:
+              properties:
+                NsLcmOpOcc:
+                  $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Individual NS lifecycle operation occurrence                                #
+  ###############################################################################
+  '/ns_lcm_op_occs/{nsLcmOpOccId}':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.10
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence.
+        in: path
+        type: string
+        required: true
+    get:
+      summary: Read an individual NS LCM operation occurrence resource.
+      description: >
+        The client can use this method to retrieve status information about
+        a NS lifecycle management operation occurrence by
+        reading an individual "NS LCM operation occurrence" resource.
+        This method shall follow the provisions specified in the
+        Tables 6.4.10.3.2-1 and 6.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            Information about a NS LCM operation occurrence was
+            queried successfully.
+            The response body shall contain status information about a NS
+            lifecycle management operation occurrence (see clause 6.5.2.3).
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message body.
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        416:
+          $ref: "../responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Retry operation task                                                        #
+  ###############################################################################
+  '/ns_lcm_op_occs/{nsLcmOpOccId}/retry':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.11
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence to be retried.
+
+          This identifier can be retrieved from the resource referenced by the "Location" HTTP header in the response
+          to a POST request triggering a NS LCM operation. It can also be retrieved from the "nsLcmOpOccId"
+          attribute in the NsLcmOperationOccurrenceNotification.
+        in: path
+        type: string
+        required: true
+    post:
+      summary: Retry a NS lifecycle management operation occurrence.
+      description: >
+        The POST method initiates retrying a NS lifecycle management operation
+        if that operation has experienced a temporary
+        failure, i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state.
+        This method shall follow the provisions specified in the
+        Tables 6.4.11.3.1-1 and 6.4.11.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location-empty"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Rollback a NS lifecycle management operation occurrence.                    #
+  ###############################################################################
+  '/ns_lcm_op_occs/{nsLcmOpOccId}/rollback':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.12
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence to be rolled back.
+
+          This identifier can be retrieved from the resource referenced by the "Location" HTTP header in the response
+          to a POST request triggering a NS LCM operation. It can also be retrieved from the "nsLcmOpOccId"
+          attribute in the NsLcmOperationOccurrenceNotification.
+        in: path
+        required: true
+        type: string
+    post:
+      summary: Rollback a NS lifecycle management operation occurrence.
+      description: >
+        The POST method initiates rolling back a NS lifecycle operation
+        if that operation has experienced a temporary failure,
+        i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state.
+        This method shall follow the provisions specified in the
+        Tables 6.4.12.3.1-1 and 6.4.12.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location-empty"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Continue a NS lifecycle management operation occurrence.                    #
+  ###############################################################################
+  '/ns_lcm_op_occs/{nsLcmOpOccId}/continue':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.13
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence to be continued.
+        in: path
+        required: true
+        type: string
+    post:
+      summary: Continue a NS lifecycle management operation occurrence.
+      description: >
+        The POST method initiates continuing an NS lifecycle operation if that operation has experienced a temporary failure,
+        i.e. the related "NS LCM operation occurrence" is in "FAILED_TEMP" state.
+        This method shall follow the provisions specified in the Tables 6.4.13.3.1-1 and 6.4.13.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location-empty"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Fail operation task                                                         #
+  ###############################################################################
+  '/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/fail':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.14
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence to be marked as "failed".
+
+          This identifier can be retrieved from the resource referenced by
+          he "Location" HTTP header in the response
+          to a POST request triggering a NS LCM operation.
+          It can also be retrieved from the "nsLcmOpOccId"
+          attribute in the NsLcmOperationOccurrenceNotification.
+        in: path
+        required: true
+        type: string
+    post:
+      summary: Mark a NS lifecycle management operation occurrence as failed.
+      description: >
+        The POST method marks a NS lifecycle management operation
+        occurrence as "finally failed" if that operation
+        occurrence is in "FAILED_TEMP" state.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            The state of the NS lifecycle management operation
+            occurrence was changed successfully.
+            The response shall include a representation of the NS
+            lifecycle management operation occurrence resource.
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsLcmOpOcc"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message
+                body.
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Cancel operation task                                                       #
+  ###############################################################################
+  '/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}/cancel':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.15
+    parameters:
+      - name: nsLcmOpOccId
+        description: >
+          Identifier of a NS lifecycle management operation occurrence to be canceled.
+
+          This identifier can be retrieved from the resource referenced by the "Location" HTTP header in the response
+          to a POST request triggering a NS LCM operation. It can also be retrieved from the "nsLcmOpOccId"
+          attribute in the NsLcmOperationOccurrenceNotification.
+        in: path
+        required: true
+        type: string
+    post:
+      summary: Cancel a NS lifecycle management operation occurrence.
+      description: >
+        The POST method initiates canceling an ongoing NS lifecycle
+        management operation while it is being executed or
+        rolled back, i.e. the related "NS LCM operation occurrence" is
+        either in "PROCESSING" or "ROLLING_BACK" state.
+        This method shall follow the provisions specified in the
+        Tables 6.4.15.3.1-1 and 6.4.15.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Version
+          description: >
+            Version of the API requested to use when responding to this request.
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/CancelMode"
+          description: >
+            The POST request to this resource shall include a CancelMode
+            structure in the payload body to choose between "graceful" and
+            "forceful" cancellation.
+      responses:
+        202:
+          $ref: "../responses/SOL005_resp.yaml#/responses/202-with-Location-empty"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "../responses/SOL005_resp.yaml#/responses/409"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Subscriptions                                                               #
+  ###############################################################################
+  '/subscriptions':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.16
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+    post:
+      summary: Subscribe to NS lifecycle change notifications.
+      description: >
+        The POST method creates a new subscription.
+        This method shall support the URI query parameters, request and response data structures, and response codes, as
+        specified in the Tables 6.4.16.3.1-1 and 6.4.16.3.1-2.
+        Creation of two subscription resources with the same callbackURI and the same filter can result in performance
+        degradation and will provide duplicates of notifications to the OSS, and might make sense only in very rare use cases.
+        Consequently, the NFVO may either allow creating a subscription resource if another subscription resource with the
+        same filter and callbackUri already exists (in which case it shall return the "201 Created" response code), or may decide
+        to not create a duplicate subscription resource (in which case it shall return a "303 See Other" response code referencing
+        the existing subscription resource with the same filter and callbackUri).
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscriptionRequest"
+          description: >
+            Details of the subscription to be created, as defined in clause 6.5.2.2.
+      responses:
+        201:
+          description: >
+            201 Created
+
+            The subscription was created successfully.
+            The response body shall contain a representation of
+            the created subscription resource.
+            The HTTP response shall include a "Location:"
+            HTTP header that points to the created subscription resource.
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message
+                body.
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        303:
+          $ref: "../responses/SOL005_resp.yaml#/responses/303"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+    get:
+      summary: Query multiple subscriptions.
+      description: >
+        Query Subscription Information.
+
+        The GET method queries the list of active subscriptions of the
+        functional block that invokes the method. It can be used e.g. for
+        resynchronization after error situations.
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          type: string
+          description: >
+            Attribute-based filtering expression according to clause 4.3.2.
+            The NFVO shall support receiving this parameter as part of the URI query string.
+            The OSS/BSS may supply this parameter.
+            All attribute names that appear in the LccnSubscription and in data types
+            referenced from it shall be supported by the NFVO in the filter expression.
+        - name: nextpage_opaque_marker
+          in: query
+          description: >
+            Marker to obtain the next page of a paged response. Shall be supported by the NFVO
+            if the NFVO supports alternative 2 (paging) according to clause 4.7.2.1 for this resource.
+          required: false
+          type: string
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            The list of subscriptions was queried successfully.
+            The response body shall contain the representations of all active
+            subscriptions of the functional block that invokes the method.
+            If the NFVO supports alternative 2 (paging) according to
+            clause 4.7.2.1 for this resource, inclusion of the Link HTTP header
+            in this response shall follow the provisions in clause 4.7.2.3.
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message
+                body.
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            Link:
+              description: >
+                Reference to other resources. Used for paging in the present document, see clause 4.7.2.1.
+              type: string
+              maximum: 1
+              minimum: 0
+          schema:
+            type: array
+            items:
+              $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+  ###############################################################################
+  # Individual subscription                                                     #
+  ###############################################################################
+  '/subscriptions/{subscriptionId}':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.17
+    parameters:
+      - name: subscriptionId
+        description: >
+          Identifier of this subscription.
+        in: path
+        type: string
+        required: true
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+    get:
+      summary: Read an individual subscription resource.
+      description: >
+        The GET method retrieves information about a subscription by reading an individual subscription resource.
+        This method shall support the URI query parameters, request and response data structures, and response codes, as
+        specified in the Tables 6.4.17.3.2-1 and 6.4.17.3.2-2
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+
+            The operation has completed successfully.
+            The response body shall contain a representation of
+            the subscription resource.
+          schema:
+            $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/LccnSubscription"
+          headers:
+            Content-Type:
+              type: string
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message body.
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
+    delete:
+      summary: Terminate a subscription.
+      description: >
+        The DELETE method terminates an individual subscription.
+        This method shall support the URI query parameters, request and response data structures, and response codes, as
+        specified in the Tables 6.4.17.3.5-1 and 6.4.17.3.5-2.
+      responses:
+        204:
+          description: >
+            204 No Content
+
+            The subscription resource was deleted successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../responses/SOL005_resp.yaml#/responses/403"
+        405:
+          $ref: "../responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../responses/SOL005_resp.yaml#/responses/503"
