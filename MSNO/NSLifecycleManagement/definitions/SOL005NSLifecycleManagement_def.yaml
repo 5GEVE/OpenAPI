@@ -1170,7 +1170,7 @@ definitions:
           defined by "subnetId" if provided). See note.
         type: array
         items:
-        $ref: "#/definitions/IpAddress"
+          $ref: "#/definitions/IpAddress"
       isDynamic:
         description: >
           Indicates whether this set of addresses was

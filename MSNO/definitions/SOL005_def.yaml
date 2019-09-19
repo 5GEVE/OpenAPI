@@ -10,6 +10,7 @@ definitions:
     description: >
       Date-time stamp.
       Representation: String formatted according toas defined by the date-time production in IETF RFC 3339.
+    type: string
     format: date-time
 
   Uri:
