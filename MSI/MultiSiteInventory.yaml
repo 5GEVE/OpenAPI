@@ -1,0 +1,157 @@
+swagger: "2.0"
+info:
+  version: "1.1.0-impl:etsi.org:ETSI_NFV_OpenAPI:1"
+  title: "5G-EVE Multi Site Inventory API"
+  description: >
+    TODO
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  '/nslcm/v1/ns_instances/{nsInstanceId}':
+        #ETSI GS NFV-SOL 005 V2.4.1 location: 6.4.3
+        parameters:
+          - name: nsInstanceId
+            description: >
+              Identifier of the NS instance.
+            in: path
+            type: string
+            required: true
+          - name: Authorization
+            description: >
+              The authorization token for the request.
+              Reference: IETF RFC 7235.
+            in: header
+            required: false
+            type: string
+          - name: Version
+            description: >
+              Version of the API requested to use when responding to this request.
+            in: header
+            required: true
+            type: string
+        get:
+          summary: Read an individual NS instance resource.
+          description: >
+            The GET method retrieves information about a NS instance by
+            reading an individual NS instance resource.
+          parameters:
+            - name: Accept
+              description: >
+                Content-Types that are acceptable for the response.
+                Reference: IETF RFC 7231
+              in: header
+              required: true
+              type: string
+            - name: Content-Type
+              description: >
+                The MIME type of the body of the request.
+                Reference: IETF RFC 7231
+              in: header
+              required: true
+              type: string
+          responses:
+            200:
+              description: >
+                200 OK
+
+                Information about an individual NS instance was queried successfully.
+                The response body shall contain a representation of the NS instance.
+              schema:
+                $ref: "definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance"
+              headers:
+                Content-Type:
+                  type: string
+                  description: >
+                    The MIME type of the body of the response.This header
+                    field shall be present if the response has a non-empty message body.
+                  maximum: 1
+                  minimum: 1
+                WWW-Authenticate:
+                  type: string
+                  description: >
+                    Challenge if the corresponding HTTP request has not provided
+                    authorization, or error details if the corresponding HTTP request
+                    has provided an invalid authorization token.
+                  maximum: 1
+                  minimum: 0
+                Version:
+                  description: >
+                    Version of the API used in the response.
+                  type: string
+                  maximum: 1
+                  minimum: 1
+            400:
+              $ref: "../responses/SOL005_resp.yaml#/responses/400"
+            401:
+              $ref: "../responses/SOL005_resp.yaml#/responses/401"
+            403:
+              $ref: "../responses/SOL005_resp.yaml#/responses/403"
+            404:
+              $ref: "../responses/SOL005_resp.yaml#/responses/404"
+            405:
+              $ref: "../responses/SOL005_resp.yaml#/responses/405"
+            406:
+              $ref: "../responses/SOL005_resp.yaml#/responses/406"
+            409:
+              $ref: "../responses/SOL005_resp.yaml#/responses/409"
+            416:
+              $ref: "../responses/SOL005_resp.yaml#/responses/416"
+            500:
+              $ref: "../responses/SOL005_resp.yaml#/responses/500"
+            503:
+              $ref: "../responses/SOL005_resp.yaml#/responses/503"
+
+        delete:
+          summary: Delete NS instance resource.
+          description: >
+            Delete NS Identifier
+
+            This method deletes an individual NS instance resource.
+          responses:
+            204:
+              description: >
+                204 No Content
+
+                The NS instance resource and the associated NS
+                identifier were deleted successfully.
+                The response body shall be empty.
+              headers:
+                WWW-Authenticate:
+                  type: string
+                  description: >
+                    Challenge if the corresponding HTTP request has not provided
+                    authorization, or error details if the corresponding HTTP request
+                    has provided an invalid authorization token.
+                  maximum: 1
+                  minimum: 0
+                Version:
+                  description: >
+                    Version of the API used in the response.
+                  type: string
+                  maximum: 1
+                  minimum: 1
+            400:
+              $ref: "../responses/SOL005_resp.yaml#/responses/400"
+            401:
+              $ref: "../responses/SOL005_resp.yaml#/responses/401"
+            403:
+              $ref: "../responses/SOL005_resp.yaml#/responses/403"
+            404:
+              $ref: "../responses/SOL005_resp.yaml#/responses/404"
+            405:
+              $ref: "../responses/SOL005_resp.yaml#/responses/405"
+            406:
+              $ref: "../responses/SOL005_resp.yaml#/responses/406"
+            409:
+              $ref: "../responses/SOL005_resp.yaml#/responses/409"
+            412:
+              $ref: "../responses/SOL005_resp.yaml#/responses/412"
+            500:
+              $ref: "../responses/SOL005_resp.yaml#/responses/500"
+            503:
+              $ref: "../responses/SOL005_resp.yaml#/responses/503"
