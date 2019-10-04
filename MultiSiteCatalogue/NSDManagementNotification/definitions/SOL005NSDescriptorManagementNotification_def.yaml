@@ -1,0 +1,302 @@
+# Copyright (c) ETSI 2017.
+# https://forge.etsi.org/etsi-forge-copyright-notice.txt
+definitions:
+  NsdOnBoardingNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - nsdId
+      - nsdInfoId
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "NsdOnboardingNotification" for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      nsdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      _links:
+        $ref: "#/definitions/NsdmLinks"
+    description: >
+      This type represents an NSD management notification, which informs
+      the receiver of the successful on-boarding of an NSD. It shall comply with
+      the provisions defined in Table 5.5.2.9-1. The support of this notification
+      is mandatory. The notification shall be triggered by the NFVO when the "
+      nsdOnboardingState" attribute of a new NSD has changed to "ONBOARDED".
+
+  NsdOnBoardingFailureNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - nsdInfoId
+      - onboardingFailureDetails
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "NsdOnboardingFailureNotification" for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      nsdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      onboardingFailureDetails:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      _links:
+        $ref: "#/definitions/NsdmLinks"
+    description: >
+      This type represents an NSD management notification, which informs
+      the receiver of the failure of on-boarding an NSD. It shall comply with the
+      provisions defined in Table 5.5.2.10-1. The support of this notification is
+      mandatory. The notification shall be triggered by the NFVO when the on-boarding
+      of an NSD has failed.
+
+  NsdChangeNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - nsdId
+      - nsdInfoId
+      - nsdOperationalState
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "NsdChangeNotification" for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      nsdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdOperationalState:
+        $ref: "../../NSDManagement/definitions/SOL005NSDescriptorManagement_def.yaml#/definitions/NsdOperationalStateType"
+      _links:
+        $ref: "#/definitions/NsdmLinks"
+    description: >
+      This type represents an NSD management notification, which informs
+      the receiver of a change of the "nsdOperationalState" attribute of an on-boarded
+      NSD. Changes in the value of the "nsdUsageState" and "nsdOnboardingState"
+      attributes are not reported. The notification shall comply with the provisions
+      defined in Table 5.5.2.11-1. The support of this notification is mandatory.
+      The notification shall be triggered by the NFVO when the value of the "nsdOperationalState"
+      attribute has changed, and the "nsdOperationalState" attribute has the value
+      "ONBOARDED".
+
+  NsdDeletionNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - nsdId
+      - nsdInfoId
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "NsdDeletionNotification " for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      nsdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      nsdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      _links:
+        $ref: "#/definitions/NsdmLinks"
+    description: >
+      This type represents an NSD management notification, which informs
+      the receiver of the deletion of an on-boarded NSD. The notification shall
+      comply with the provisions defined in Table 5.5.2.12-1. The support of this
+      notification is mandatory. The notification shall be triggered by the NFVO
+      when it has deleted an on-boarded NSD.
+
+  PnfdOnBoardingNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - pnfdId
+      - pnfdInfoId
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "PnfdOnboardingNotification" for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      pnfdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      _links:
+        $ref: "#/definitions/PnfdmLinks"
+    description: >
+      This type represents a PNFD management notification, which informs
+      the receiver of the successful on-boarding of aPNFD. It shall comply with
+      the provisions defined in Table 5.5.2.13-1. The support of this notification
+      is mandatory. The notification is triggered when a new PNFD is on-boarded.
+
+  PnfdOnBoardingFailureNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - onboardingFailureDetails
+      - pnfdInfoId
+      - timeStamp
+    properties:
+      id:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "PnfdOnboardingFailureNotification" for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      pnfdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      onboardingFailureDetails:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+      _links:
+        $ref: "#/definitions/PnfdmLinks"
+    description: >
+      This type represents a PNFD management notification, which informs
+      the receiver of the failure of on-boarding a PNFD. It shall comply with
+      the provisions defined in Table 5.5.2.14-1. The support of this notification
+      is mandatory. The notification is triggered when the on-boarding of a PNFD
+      fails.
+
+  PnfdDeletionNotification:
+    type: object
+    required:
+      - _links
+      - id
+      - notificationType
+      - subscriptionId
+      - pnfdId
+      - pnfdInfoId
+      - timeStamp
+    properties:
+      id:
+        type: string
+        description: >
+          Identifier of this notification. If a notification is sent multiple
+          times due to multiple subscriptions, the "id" attribute of all these
+          notifications shall have the same value.
+      notificationType:
+        type: string
+        description: >
+          Discriminator for the different notification types. Shall be
+          set to "PnfdDeletionNotification " for this notification type.
+      subscriptionId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date-time of the generation of the notification.
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/DateTime"
+      pnfdInfoId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      pnfdId:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Identifier"
+      _links:
+        $ref: "#/definitions/PnfdmLinks"
+    description: >
+      This type represents a PNFD management notification, which informs
+      the receiver of the deletion of an on-boarded PNFD. The notification shall
+      comply with the provisions defined in Table 5.5.2.15-1. The support of this
+      notification is mandatory. The notification is triggered when an on-boarded
+      PNFD is deleted.
+
+  NsdmLinks:
+    type: object
+    required:
+      - nsdInfo
+      - subscription
+    properties:
+      nsdInfo:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Link"
+      subscription:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Link"
+    description: >
+      This type represents the links to resources that an NSD management
+      notification can contain.
+
+  PnfdmLinks:
+    type: object
+    required:
+      - pnfdInfo
+      - subscription
+    properties:
+      pnfdInfo:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Link"
+      subscription:
+        $ref: "../../NSDManagement/definitions/SOL005_def.yaml#/definitions/Link"
+    description: >
+      This type represents the links to resources that a PNFD management
+      notification can contain.

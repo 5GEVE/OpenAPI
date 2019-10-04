@@ -1,0 +1,1065 @@
+swagger: "2.0"
+
+info:
+  version: "1.0.0"
+  title: SOL005 - NSD Management Notification interface
+  description: >
+    SOL005 - NSD Management Notification interface
+
+
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to. In case of
+    discrepancies the published ETSI Group Specification takes precedence.
+
+
+    In clause 4.3.2 of ETSI GS NFV-SOL 002 v2.4.1, an attribute-based
+    filtering mechanism is defined. This mechanism is currently not
+    included in the corresponding OpenAPI design for this GS version. Changes
+    to the attribute-based filtering mechanism are being considered in v2.5.1
+    of this GS for inclusion in the corresponding future ETSI NFV OpenAPI
+    design.
+
+    Please report bugs to https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis&list_id=61&product=NFV&resolution=
+  license:
+    name: "ETSI Forge copyright notice"
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V2.4.1
+  url: http://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/02.04.01_60/gs_NFV-SOL005v020401p.pdf
+
+basePath: /callback/v1
+
+schemes:
+  - http
+  - https
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  ###############################################################################
+  # Notification endpoint NSDManagement                                         #
+  ###############################################################################
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-NsdOnBoardingNotification':
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: NsdOnBoardingNotification
+          description: >
+            A notification about the successful on-boarding of an NSD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdOnBoardingNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement//responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-NsdOnBoardingFailureNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: NsdOnBoardingFailureNotification
+          description: >
+            A notification about the failure of on-boarding an NSD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdOnBoardingFailureNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-NsdChangeNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: NsdChangeNotification
+          description: >
+            A notification about the state change of an on-boarded NSD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdChangeNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-NsdDeletionNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: NsdDeletionNotification
+          description: >
+            A notification about the deletion of an on-boarded NSD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/NsdDeletionNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-PnfdOnBoardingNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: PnfdOnBoardingNotification
+          description: >
+            A notification about the successful on-boarding of a PNFD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdOnBoardingNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 No Content
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-PnfdOnBoardingFailureNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: PnfdOnBoardingFailureNotification
+          description: >
+            A notification about the failure of on-boarding a PNFD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdOnBoardingFailureNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement//responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+  '/URI_is_provided_by_the_client_when_creating_the_subscription-PnfdDeletionNotification':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 5.4.10
+    parameters:
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235.
+        in: header
+        required: false
+        type: string
+      - name: Version
+        description: >
+          Version of the API requested to use when responding to this request.
+        in: header
+        required: true
+        type: string
+
+    post:
+      summary: Notify about NSD and PNFD changes
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The POST method delivers a notification from the server to the client.
+        This method shall support the URI query parameters, request and
+        response data structures, and response codes, as
+        specified in the Table 5.4.10.3.1-2.
+      parameters:
+        - name: PnfdDeletionNotification
+          description: >
+            A notification about the deletion of an on-boarded PNFD.
+          in: body
+          required: true
+          schema:
+            $ref: "definitions/SOL005NSDescriptorManagementNotification_def.yaml#/definitions/PnfdDeletionNotification"
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+        - name: Content-Type
+          description: >
+            The MIME type of the body of the request.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 No Content
+
+            The notification was delivered successfully.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"
+
+    get:
+      summary: Test the notification endpoint
+      description: >
+        This resource represents a notification endpoint. The server can use
+        this resource to send notifications to a subscribed
+        client, which has provided the URI of this resource during the subscription process.
+
+        The GET method allows the server to test the notification endpoint
+        that is provided by the client, e.g. during subscription.
+        This method shall follow the provisions specified in the Table 5.4.10.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231.
+          in: header
+          required: true
+          type: string
+      responses:
+        204:
+          description: >
+            204 NO CONTENT
+
+            The notification endpoint was tested successfully.
+            The response body shall be empty.
+          headers:
+            WWW-Authenticate:
+              type: string
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+            Version:
+              description: >
+                Version of the API used in the response.
+              type: string
+              maximum: 1
+              minimum: 1
+        400:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "../NSDManagement/responses/SOL005_resp.yaml#/responses/503"

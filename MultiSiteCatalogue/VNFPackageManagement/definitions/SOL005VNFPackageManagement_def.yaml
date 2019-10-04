@@ -1,0 +1,661 @@
+definitions:
+  VnfPkgInfo:
+    type: object
+    required:
+      - id
+      - onboardingState
+      - operationalState
+      - usageState 
+    properties:
+      id:
+        description: >
+          Identifier of the VNF package. This identifier is allocated by the NFVO.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          This identifier, which is managed by the
+          VNF provider, identifies the VNF package and the VNFD in a globally unique way.
+          It is copied from the VNFD of the on boarded VNF package. It shall be present
+          after the VNF package content has been on-boarded and absent otherwise.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      vnfProvider:
+        description: >
+          Provider of the VNF package and the VNFD. This information is copied from the VNFD. 
+          It shall be present after the VNF package content has been on-boarded and absent otherwise.
+        type: string
+      vnfProductName:
+        description: >
+          Name to identify the VNF product.Invariant for the VNF product lifetime. 
+          This information is copied from the VNFD. It
+          shall be present after the VNF package content has been on-boarded and absent otherwise.
+        type: string
+      vnfSoftwareVersion:
+        description: >
+          Software version of the VNF. This is
+          changed when there is any change to the
+          software included in the VNF package.
+          This information is copied from the VNFD.
+          It shall be present after the VNF package
+          content has been on-boarded and absent otherwise.
+        $ref: "SOL005_def.yaml#/definitions/Version"
+      vnfdVersion:
+        description: >
+          The version of the VNFD. This information
+          is copied from the VNFD. It shall be
+          present after the VNF package content
+          has been on-boarded and absent otherwise.
+        $ref: "SOL005_def.yaml#/definitions/Version"        
+      checksum:
+        description: >
+          Checksum of the on-boarded VNF
+          package. It shall be present after the VNF
+          package content has been on-boarded and absent otherwise.
+        $ref: "SOL005_def.yaml#/definitions/Checksum"
+      softwareImages:
+        description: >
+          Information about VNF package artifacts that are software images.
+          This attribute shall not be present before the VNF package content is on-boarded.
+          Otherwise, this attribute shall be present unless it has been requested to be
+          excluded per attribute selector.
+        type: "array"
+        items:        
+          $ref: "#/definitions/VnfPackageSoftwareImageInfo"
+      additionalArtifacts:
+        description: >
+          Information about VNF package artifacts
+          contained in the VNF package that are not software images.
+          This attribute shall not be present before
+          the VNF package content is on-boarded.
+          Otherwise, this attribute shall be present if
+          the VNF package contains additional artifacts.
+        type: "array"
+        items:        
+          $ref: "#/definitions/VnfPackageArtifactInfo"          
+      onboardingState:
+        description: >
+          On-boarding state of the VNF package.
+        $ref: "#/definitions/PackageOnboardingStateType" 
+      operationalState:
+        description: >
+          Operational state of the VNF package.
+        $ref: "#/definitions/PackageOperationalStateType" 
+      usageState:
+        description: >
+          Usage state of the VNF package.
+        $ref: "#/definitions/PackageUsageStateType"         
+      userDefinedData:
+        description: >
+          Usage state of the VNF package.
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"  
+      _links:
+        type: object
+        description: >
+          Links to resources related to this resource.
+        required:
+          - self
+          - packageContent          
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "SOL005_def.yaml#/definitions/Link"
+          vnfd:
+            description: >
+              Link to the VNFD resource. This link shall
+              be present after the VNF package content
+              is on-boarded.
+            $ref: "SOL005_def.yaml#/definitions/Link"             
+          packageContent:
+            description: >
+              Link to the "VNF package content" resource.
+            $ref: "SOL005_def.yaml#/definitions/Link"        
+        
+  VnfPackageArtifactInfo:
+    description: >
+      This type represents an artifact other than a software image which is contained in a VNF package. 
+      It shall comply with provisions defined in Table 9.5.3.3-1.
+    required:
+      - artifactPath
+      - checksum
+    type: object
+    properties:
+      artifactPath:
+        description: >
+          Path in the VNF package, which identifies the artifact
+          and also allows to access a copy of the artifact.
+        $ref: "SOL005_def.yaml#/definitions/String" 
+      checksum:
+        description: >
+          Checksum of the artifact file.
+        $ref: "SOL005_def.yaml#/definitions/Checksum"
+      metadata:
+        description: >
+          The metadata of the artifact that are available in the
+          VNF package, such as Content type, size, creation date, etc.
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"         
+        
+  PkgmLinks:
+    description: >
+      This type represents the links to resources that a VNF package management notification can contain.  
+    required:
+      - vnfPackage
+      - subscription
+    type: object
+    properties:
+      vnfPackage:
+        description: >
+          Link to the resource representing the VNF package to
+          which the notified change applies, i.e. the individual on boarded
+          VNF package resource that represents the VNF package.
+        $ref: "SOL005_def.yaml#/definitions/Link" 
+      subscription:
+        description: >
+          Link to the related subscription.
+        $ref: "SOL005_def.yaml#/definitions/Link"   
+        
+  VnfPackageSoftwareImageInfo:
+    description: >
+      This type represents an artifact contained in a VNF package which represents a software image.  
+    required:
+      - id
+      - name
+      - provider
+      - version
+      - checksum      
+      - containerFormat
+      - diskFormat
+      - createdAt
+      - minDisk      
+      - minRam
+      - size      
+      - imagePath      
+    type: object
+    properties:
+      id:
+        description: >
+          Name of the algorithm used to generate the checksum,
+          as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512.
+        $ref: "SOL005_def.yaml#/definitions/IdentifierInVnfd"
+      name:
+        description: >
+          Name of the software image.
+        type: string
+      provider:
+        description: >
+          Provider of the software image.
+        type: string 
+      version:
+        description: >
+          Version of the software image.
+        $ref: "SOL005_def.yaml#/definitions/Version" 
+      checksum:
+        description: >
+          Checksum of the software image file.
+        $ref: "SOL005_def.yaml#/definitions/Checksum" 
+      containerFormat:
+        description: >
+          Container format indicates whether the software image
+          is in a file format that also contains meta-data about the actual software.
+          Permitted values:
+          - AKI: a kernel image format
+          - AMI: a machine image format
+          - ARI: a ram disk image format
+          - BARE: the image does not have a container or meta-data envelope
+          - DOCKER: docker container format
+          - OVA: OVF package in a tar file
+          - OVF: OVF container format
+        type: string
+        enum:
+          - AKI
+          - AMI
+          - ARI
+          - BARE
+          - DOCKER
+          - OVA
+          - OVF          
+      diskFormat:
+        description: >
+          Disk format of a software image is the format of the
+          underlying disk image.
+          Permitted values:
+          - AKI: a kernel image format
+          - AMI: a machine image format
+          - ARI: a ramdisk image format
+          - ISO: an archive format for the data contents of an
+          optical disc, such as CD-ROM
+          - QCOW2: a common disk image format, which can
+          expand dynamically and supports copy on write
+          - RAW: an unstructured disk image format
+          - VDI: a common disk image format
+          - VHD: a common disk image format
+          - VHDX: enhanced version of VHD format
+          - VMDK: a common disk image format
+        type: string
+        enum:
+          - AKI
+          - AMI
+          - ARI
+          - ISO
+          - QCOW2
+          - RAW
+          - VDI
+          - VHD
+          - VHDX
+          - VMDK          
+      createdAt:
+        description: >
+          Time when this software image was created.
+        $ref: "SOL005_def.yaml#/definitions/DateTime"
+      minDisk:
+        description: >
+          The minimal disk for this software image in bytes.
+        type: integer
+        minimum: 0 
+      minRam:
+        description: >
+          The minimal RAM for this software image in bytes.
+        type: integer
+        minimum: 0 
+      size:
+        description: >
+          Size of this software image in bytes.
+        type: integer
+        minimum: 0 
+      userMetadata:
+        description: >
+          User-defined data.
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"    
+      imagePath:
+        description: >
+          Path in the VNF package, which identifies the image
+          artifact and also allows to access a copy of the image
+          artifact.
+        type: string
+
+  NsdOperationalStateType:
+    type: "string"
+    description: >  
+      "The enumeration NsdOperationalStateType shall comply with the provisions
+      defined in Table 5.5.4.3-1 of GS NFV_SOL 005. It indicates the operational
+      state of the resource.ENABLED = The operational state of the resource
+      is enabled. DISABLED = The operational state of the resource is disabled."
+    enum:
+    - "ENABLED"
+    - "DISABLED" 
+  PackageOperationalStateType:
+    type: "string"
+    description: >  
+      "The enumeration PackageOperationalStateType shall 
+      comply with the provisions defined in Table 9.5.4.4-1."
+      Acceptable values are:
+      -ENABLED - The VNF package is enabled, i.e. it can be used for instantiation of new VNF instances.
+      -DISABLED - The VNF package is disabled, i.e. it cannot be used for further VNF instantiation requests (unless and until the VNF package is re-enabled).
+    enum:
+    - "ENABLED"
+    - "DISABLED"      
+  PackageOnboardingStateType:
+    description: >
+      The enumeration PackageOnboardingStateType shall comply with the provisions defined in Table 9.5.4.3-1.
+      Permitted values:
+      - CREATED: The VNF package resource has been created.
+      - UPLOADING: The associated VNF package content is being uploaded.
+      - PROCESSING: The associated VNF package content is being processed, e.g. validation.
+      - ONBOARDED: The associated VNF package content is successfully on-boarded.
+    type: string
+    enum:
+      - CREATED
+      - UPLOADING
+      - PROCESSING
+      - ONBOARDED    
+  PackageUsageStateType:
+    type: "string"
+    description: >  
+      "The enumeration PackageUsageStateType shall comply with the provisions.
+      Acceptable values are:
+      -IN_USE - VNF instances instantiated from this VNF package exist.
+      -NOT_IN_USE - No existing VNF instance is instantiated from this VNF package"      
+    enum:
+    - "IN_USE"
+    - "NOT_IN_USE"
+    
+  CreateVnfPkgInfoRequest:
+    type: "object"
+    properties:
+      userDefinedData:
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"    
+    description: >  
+      IndividualVNF package resource creation parameters, as defined
+      in clause 9.5.2.2.      
+  VnfPkgInfoModifications:
+    description: >
+      This type represents modifications to the information of a VNF package. 
+      It shall comply with the provisions defined in Table 9.5.2.3-1.
+    properties:
+      operationalState:
+        description: >
+          New value of the operational state of the on-boarded
+          instance of the VNF package.
+        $ref: "#/definitions/PackageOperationalStateType"
+      userDefinedData:
+        description: >  
+          User defined data to be updated. For existing keys, the value is replaced.
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"
+         
+  UploadVnfPkgFromUriRequest:
+    type: "object"
+    properties:
+      userDefinedData:
+        $ref: "SOL005_def.yaml#/definitions/KeyValuePairs"    
+    description: >  
+      "The payload body contains the address information based on
+      which the NFVO can obtain the content of the VNF package"
+      
+  PkgmSubscription:
+    description: >
+      This type represents a subscription related to notifications about VNF package management.
+    type: object
+    required:
+      - id
+      - callbackUri
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this subscription resource
+        $ref: "SOL005_def.yaml#/definitions/Uri"
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset
+          of all notifications this subscription relates to. A
+          particular notification is sent to the subscriber if the filter
+          matches, or if there is no filter.
+        $ref: "#/definitions/PkgmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to
+        $ref: "SOL005_def.yaml#/definitions/Uri"
+      _links:
+        description: >
+          Links to resources related to this resource.
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            description: >
+              URI of this resource.
+            $ref: "SOL005_def.yaml#/definitions/Link" 
+            
+  PkgmSubscriptionRequest:
+    description: >
+      This type represents a subscription request related to VNF package management 
+      notifications about VNF package on boarding or changes.
+    type: object
+    required:
+      - callbackUri
+    properties:
+      filter:
+        description: >
+          Filter settings for this subscription, to define the subset
+          of all notifications this subscription relates to. A
+          particular notification is sent to the subscriber if the filter
+          matches, or if there is no filter.
+        $ref: "#/definitions/PkgmNotificationsFilter"
+      callbackUri:
+        description: >
+          The URI of the endpoint to send the notification to.
+        $ref: "SOL005_def.yaml#/definitions/Uri"
+      authentication:
+        description: >
+          Authentication parameters to conFigure the use of
+          authorization when sending notifications corresponding
+          to this subscription, as defined in clause 4.5.3.4.
+          This attribute shall only be present if the subscriber
+          requires authorization of notifications.
+        $ref: "SOL005_def.yaml#/definitions/SubscriptionAuthentication" 
+
+  PkgmNotificationsFilter:
+    description: >
+      This type represents a subscription filter related to notifications related to VNF package management.
+      At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter
+      to match (logical "and" between different filter attributes). If an attribute is an array, the attribute shall match if at least
+      one of the values in the array matches (logical "or" between the values of one filter attribute).
+    type: object      
+    properties:
+      notificationTypes:
+        description: >
+          Match particular notification types.
+          Permitted values:
+          - VnfPackageOnboardingNotification
+          - VnfPackageChangeNotification
+        type: string
+        enum:
+          - VnfPackageOnboardingNotification
+          - VnfPackageChangeNotification
+      vnfProductsFromProviders:
+        description: >
+          If present, match VNF packages that contain VNF products from certain providers.
+        type: array
+        items:
+          type: object
+          required:
+            - vnfProvider
+          properties:
+            vnfProvider:
+              description: >
+                Name of the VNFprovider to match.
+              type: string
+            vnfProducts:
+              description: >
+                If present, match VNF packages that contain
+                VNF products with certain product names, from
+                one particular provider.
+              type: array
+              items:
+                type: object
+                required:
+                  - vnfProductName
+                properties:
+                  vnfProductName:
+                    description: >
+                      Name of the VNF product to match.
+                    type: string
+                  versions:
+                    description: >
+                      If present, match VNF packages that contain
+                      VNF products with certain versions and a
+                      certain product name, from one particular
+                      provider.
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - vnfSoftwareVersion   
+                      properties:
+                        vnfSoftwareVersion:
+                          description: >
+                            VNF software version to match
+                          $ref: "SOL005_def.yaml#/definitions/Version"
+                        vnfdVersions:
+                          description: >
+                            If present, match VNF packages that contain
+                            VNF products with certain VNFD versions, a
+                            certain software version and a certain product
+                            name, from one particular provider.
+                          type: array    
+                          items:
+                            $ref: "SOL005_def.yaml#/definitions/Version"                           
+                
+            vnfdId:
+              description: >
+                Match VNF packages with a VNFD identifier
+                listed in the attribute.
+              type: array
+              items:
+                $ref: "SOL005_def.yaml#/definitions/Identifier"
+            vnfPkgId:
+              description: >
+                Match VNF packages with a package identifier
+                listed in the attribute.
+                May be present if the "notificationTypes"
+                attribute contains the value
+                "VnfPackageChangeNotification", and shall be
+                absent otherwise.
+              type: array
+              items:
+                $ref: "SOL005_def.yaml#/definitions/Identifier"  
+            operationalState:
+              description: >
+                Match VNF packages with a package identifier
+                listed in the attribute.
+                May be present if the "notificationTypes"
+                attribute contains the value
+                "VnfPackageChangeNotification", and shall be
+                absent otherwise.
+              type: array
+              items:
+                $ref: "#/definitions/PackageOperationalStateType" 
+            usageState:
+              description: >
+                Match particular usage state of the on-boarded VNF package.
+                May be present if the "notificationTypes"
+                attribute contains the value
+                "VnfPackageChangeNotification", and shall be
+                absent otherwise.
+              type: array
+              items:
+                $ref: "#/definitions/PackageUsageStateType"
+                
+  VnfPackageOnboardingNotification:
+    description: >
+      This type represents a VNF package management notification, which informs the receiver that the on boarding process
+      of a VNF package incomplete and the package is ready for use. A change of the on-boarding state before the VNF
+      package is on-boarded is not reported. It shall comply with the provisions defined in Table 9.5.2.8-1. The support of this
+      notification is mandatory. The notification shall be triggered by the NFVO when the value of the "onboardingState"
+      attribute of a new VNF package has changed to "ONBOARDED".
+    type: object
+    required:
+      - id
+      - notificationType
+      - timeStamp
+      - vnfPkgId
+      - vnfdId      
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent
+          multiple times due to multiple subscriptions, the "id"
+          attribute of all these notifications shall have the same value.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types.
+          Shall be set to "VnfPackageOnboardingNotification" for
+          this notification type.
+        type: string
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date and time of the generation of the notification.
+        $ref: "SOL005_def.yaml#/definitions/DateTime"
+      vnfPkgId:
+        description: >
+          Identifier of the on-boarded VNF package. This identifier
+          is allocated by the NFVO.
+          Its value is the same as the value of the "id" attribute of
+          the related "Individual VNF package" resource.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          This identifier, which is managed by the VNF provider,
+          identifies the VNF package and the VNFD in a globally
+          unique way.
+          It is copied from the VNFD of the on-boarded VNF package.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"         
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "#/definitions/PkgmLinks"     
+
+  VnfPackageChangeNotification:
+    description: >
+      This type represents a VNF package management notification, which informs the receiver of a change of the status in an
+      on-boarded VNF package. Only changes in the "operationalState" attribute of an on-boarded VNF package and the
+      deletion of the VNF package will be reported. Change in the "usageState" and "onboardingState" attributes are not
+      reported. The notification shall comply with the provisions defined in Table 9.5.2.9-1. The support of this notification is
+      mandatory. The notification shall be triggered by the NFVO when there is a change in the status of an onboarded VNF
+      package, as follows.
+      • The "operationalState" attribute of a VNF package has changed, and the "onboardingState" attribute of the
+      package has the value "ONBOARDED".
+      • The on-boarded VNF package has been deleted.
+    type: object
+    required:
+      - id
+      - notificationType
+      - timeStamp
+      - vnfPkgId
+      - vnfdId   
+      - changeType      
+      - _links
+    properties:
+      id:
+        description: >
+          Identifier of this notification. If a notification is sent
+          multiple times due to multiple subscriptions, the "id"
+          attribute of all these notifications shall have the same value.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      notificationType:
+        description: >
+          Discriminator for the different notification types.
+          Shall be set to "VnfPackageChangeNotification" for this
+          notification type.
+        type: string
+      subscriptionId:
+        description: >
+          Identifier of the subscription that this notification relates to.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      timeStamp:
+        description: >
+          Date and time of the generation of the notification.
+        $ref: "SOL005_def.yaml#/definitions/DateTime"
+      vnfPkgId:
+        description: >
+          Identifier of the on-boarded VNF package. This identifier
+          is allocated by the NFVO.
+          Its value is the same as the value of the "id" attribute of
+          the related "Individual VNF package" resource.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      vnfdId:
+        description: >
+          Identifier of the VNFD contained in the VNF package,
+          which also identifies the VNF package. This identifier is
+          allocated by the VNF provider and copied from the VNFD.
+        $ref: "SOL005_def.yaml#/definitions/Identifier"
+      changeType:
+        description: >
+          The type of change of the VNF package.
+        $ref: "#/definitions/PackageChangeType"
+      operationalState:
+        description: >
+          New operational state of the VNF package.
+          Only present when changeType is OP_STATE_CHANGE.
+        $ref: "#/definitions/PackageOperationalStateType"         
+      _links:
+        description: >
+          Links to resources related to this notification.
+        $ref: "#/definitions/PkgmLinks"
+
+  PackageChangeType:
+    type: "string"
+    description: >  
+      The enumeration PackageChangeType shall comply with the provisions defined in Table 9.5.4.6-1.
+      Permitted Values: 
+      - OP_STATE_CHANGE: The "operationalState" attribute has been changed.
+      - PKG_DELETE: The VNF package has been deleted.
+    enum:
+    - "OP_STATE_CHANGE"
+    - "PKG_DELETE"

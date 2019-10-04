@@ -1,0 +1,1192 @@
+swagger: "2.0"
+
+info:
+  version: "1.0.0" 
+  title: SOL005 - VNF Package Management Interface
+  description: >
+    SOL005 - VNF Package Management Interface
+    IMPORTANT: Please note that this file might be not aligned to the current
+    version of the ETSI Group Specification it refers to and has not been
+    approved by the ETSI NFV ISG. In case of discrepancies the published ETSI
+    Group Specification takes precedence.
+    Please report bugs to https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
+  license:
+    name: "ETSI Forge copyright notice"
+    url: https://forge.etsi.org/etsi-forge-copyright-notice.txt
+  contact: 
+    name: "NFV-SOL WG"
+externalDocs:
+  description: ETSI GS NFV-SOL 005 V2.4.1
+  url: http://www.etsi.org/deliver/etsi_gs/NFV-SOL/001_099/005/02.04.01_60/gs_NFV-SOL005v020401p.pdf
+basePath: "/vnfpkgm/v1"
+schemes:
+  - https
+consumes:
+  - "application/json"
+produces:
+  - "application/json"  
+paths:
+###############################################################################
+# VNF Packages                                                                #
+###############################################################################
+  '/vnf_packages':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.2
+    get:
+      summary: Query VNF packages information.
+      description: > 
+        The GET method queries the information of the VNF packages matching the filter.
+        This method shall follow the provisions specified in the 
+        Tables 9.4.2.3.2-1 and 9.4.2.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: "filter"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Attribute-based filtering parameters according to clause 4.3.2.
+            The NFVO shall support receiving filtering parameters as part of the URI query string. The
+            OSS/BSS may supply filtering parameters.
+            All attribute names that appear in the VnfPkgInfo and in data types referenced from it shall
+            be supported in attribute-based filtering parameters.
+        - name: "all_fields"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Include all complex attributes in the response. See clause 4.3.3 for details. The NFVO
+            shall support this parameter.
+        - name: "fields"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Complex attributes to be included into the response. See clause 4.3.3 for details. The
+            NFVO should support this parameter.         
+        - name: "exclude_fields"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Complex attributes to be excluded from the response. See clause 4.3.3 for details. The
+            NFVO should support this parameter.
+        - name: "exclude_default"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Indicates to exclude the following complex attributes from the response. See clause 4.3.3
+            for details.
+            The NFVO shall support this parameter.
+            The following attributes shall be excluded from the VnfPkgInfo structure in the response
+            body if this parameter is provided, or none of the parameters "all_fields," "fields",
+            "exclude_fields", "exclude_default" are provided:
+            - softwareImages
+            - additionalArtifacts
+            - userDefinedData
+            - checksum
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string      
+      responses:
+        200:
+          description: >
+            200 OK
+            
+            Information of the selected VNF packages.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:            
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0                 
+          schema:
+            type: array
+            items:
+              properties:
+                VnfPkgInfo:
+                  $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"          
+
+    post:
+      summary: Create a new individual VNF package resource.
+      description: >  
+        The POST method creates a new individual VNF package resource.
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - name: Content-Type
+        description: >
+          The MIME type of the body of the request.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "CreateVnfPkgInfoRequest"
+          properties:
+            CreateVnfPkgInfoRequest:
+              $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/CreateVnfPkgInfoRequest"
+          description: >
+            IndividualVNF package resource creation parameters, as defined in clause 9.5.2.2
+            
+      responses:
+        201:
+          description: >  
+            201 Created            
+            
+            An individual VNF package resource has been created successfully.
+            The response body shall contain a representation of
+            the new individual VNF package resource, as defined
+            in clause 9.5.2.4.
+            The HTTP response shall include a "Location" HTTP
+            header that contains the resource URI of the individual
+            VNF package resource.
+          schema:
+            properties:
+              VnfPkgInfo:
+                $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+          headers:
+            Content-Type:
+              type: "string"
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message
+                body.
+              maximum: 1
+              minimum: 1                
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+###############################################################################
+# Individual VNF Package                                                      #
+###############################################################################                
+  '/vnf_packages/{vnfPkgId}':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.3
+    parameters:
+      - name: "vnfPkgId"
+        description: >
+          Identifier of the VNF package. The identifier is allocated by the NFVO.  
+        in: "path"
+        type: "string" 
+        required: true
+    get:
+      summary: Read information about an individual VNF package.
+      description: >  
+        The GET method reads the information of a VNF package.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string      
+      responses:
+        200:
+          description: >
+            200 OK
+            
+            Information of the VNF package.            
+          schema:
+            type: "object"   
+            properties:
+              VnfPkgInfo:
+                $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/VnfPkgInfo"
+          headers:
+            Content-Type:
+              type: "string"
+              description: >
+                The MIME type of the body of the response.This header
+                field shall be present if the response has a non-empty message body.
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"                 
+    delete:
+      summary: Delete an individual VNF package.
+      description: >  
+        The DELETE method deletes an individual VNF Package resource.
+      parameters:
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string          
+      responses:
+        204:
+          description: >
+            204 No Content
+            
+            The VNF package was deleted successfully.
+            The response body shall be empty.
+        409:
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"           
+    patch:
+      summary: Update information about an individual VNF package.
+      description: >  
+        "The PATCH method updates the information of a VNF package."
+        
+        "This method shall follow the provisions specified in the 
+        Tables 9.4.3.3.4-1 and 9.4.3.3.4-2 for URI query parameters,
+        request and response data structures, and response codes."
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "VnfPkgInfoModifications"
+          properties:
+            VnfPkgInfoModifications:
+              $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/VnfPkgInfoModifications"
+          description: >  
+            Parameters for VNF package information modifications.
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - name: Content-Type
+        description: >
+          The MIME type of the body of the request.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string  
+      responses:          
+        200:
+          description: >
+            200 OK
+            
+            The operation was completed successfully.
+            The response body shall contain attribute
+            modifications for an "Individual VNF
+            package" resource
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+          schema:
+            properties:
+              VnfPkgInfoModifications:            
+                $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/VnfPkgInfoModifications"
+        409:
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"             
+          
+###############################################################################
+# VNFD in an individual VNF package                                           #
+###############################################################################         
+  '/vnf_packages/{vnfPkgId}/vnfd':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.4
+    parameters:
+      - name: vnfPkgId
+        description: >
+          Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO.
+        in: path
+        type: string
+        required: true   
+    get:
+      summary: Read VNFD of an on-boarded VNF package.
+      description: >  
+        The GET method reads the content of the VNFD within a VNF package.
+        
+        The VNFD can be implemented as a single file or as a collection of multiple files. If the VNFD is implemented in the
+        form of multiple files, a ZIP file embedding these files shall be returned. If the VNFD is implemented as a single file,
+        either that file or a ZIP file embedding that file shall be returned.
+        The selection of the format is controlled by the "Accept" HTTP header passed in the GET request.
+        • If the "Accept" header contains only "text/plain" and the VNFD is implemented as a single file, the file shall
+        be returned; otherwise, an error message shall be returned.
+        • If the "Accept" header contains only "application/zip", the single file or the multiple files that make up the
+        VNFD shall be returned embedded in a ZIP file.
+        • If the "Accept" header contains both "text/plain" and "application/zip", it is up to the NFVO to choose the
+        format to return for a single-file VNFD; for a multi-file VNFD, a ZIP file shall be returned.
+        The default format of the ZIP file shall be the one specified in ETSI GS NFV-SOL 004 [5] where only the YAML files
+        representing the VNFD, and information necessary to navigate the ZIP file and to identify the file that is the entry point
+        for parsing the VNFD (such as TOSCA-meta or manifest files or naming conventions) are included.
+        This method shall follow the provisions specified in the Tables 9.4.4.3.2-1 and 9.4.4.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+        in: header
+        required: true
+        type: string
+        enum: 
+          - text/plain
+          - application/zip
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      responses:
+        200:
+          description: > 
+            200 OK
+
+            On success, the content of the VNFD is returned.
+            The payload body shall contain a copy of the file
+            representing the VNFD or a ZIP file that contains the
+            file or multiple files representing the VNFD, as
+            specified above.
+            The "Content-Type" HTTP header shall be set
+            according to the format of the returned file, i.e. to
+            "text/plain" for a YAML file or to "application/zip" for a ZIP file.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          description: >
+            "406 Not AccepTable"
+            
+          $ref: "responses/SOL005_resp.yaml#/responses/406"       
+        409:
+          description: >
+            "409 Conflict"
+            
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/406-state-conflict"          
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"            
+          
+###############################################################################
+# VNF Package Content                                                         #
+###############################################################################         
+  '/vnf_packages/{vnfPkgId}/package_content':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.5
+    parameters:
+      - name: "vnfPkgId"
+        description: >
+          Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO.
+        in: "path"
+        required: true
+        type: "string"    
+    get:
+      summary: Fetch an on-boarded VNF package.
+      description: >  
+        The GET method fetches the content of a VNF package identified by the VNF package identifier allocated by the NFVO.
+        This method shall follow the provisions specified in the Tables 9.4.5.3.2-1 and 9.4.5.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+        in: header
+        required: true
+        type: string
+        enum:
+          - application/zip
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - name: "Range"
+        in: "header"
+        required: false
+        type: "string"
+        description: >  
+          The request may contain a "Range" HTTP header to obtain single
+          range of bytes from the VNF package file. This can be used to
+          continue an aborted transmission.
+           
+          If the NFVO does not support range requests, it should return the
+          whole file with a 200 OK response instead.
+      responses:
+        200:
+          description: > 
+            200 OK
+
+            On success, a copy of the VNF package file is returned.
+            The response body shall include a copy of the VNF package file.
+            The "Content-Type" HTTP header shall be set
+            according to the type of the file, i.e. to "application/zip"
+            for a VNF Package as defined in ETSI
+            GS NFV-SOL 004 [5].
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+        206:
+          $ref: "responses/SOL005_resp.yaml#/responses/206"
+        409:
+          description: >   
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409-state-conflict-ONBOARDING"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"            
+              
+    put:
+      summary: Upload a VNF package by providing the content of the VNF package.
+      description: >  
+        The PUT method uploads the content of a VNF package.
+        This method shall follow the provisions specified in the 
+        Tables 9.4.5.3.3-1 and 9.4.5.3.3-2 for URI query parameters,
+        request and response data structures, and response codes.
+      consumes:
+        - multipart/form-data        
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+        in: header
+        required: true
+        type: string
+        enum: 
+          - application/zip
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - in: formData
+        name: file
+        required: false
+        type: file
+        description: >
+          The payload body contains a ZIP file that represents the VNF package.
+          The "Content-Type" HTTP header shall be set according to the
+          type of the file, i.e. to "application/zip" for a VNF Package as
+          defined in ETSI GS NFV-SOL 004 [5].      
+      responses:
+        202:
+          description: > 
+            202 Accepted
+            
+            The VNF package was accepted for uploading, but the
+            processing has not been completed. It is expected to
+            take some time for processing.
+            The response body shall be empty.
+        409:
+          description: >         
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409-state-conflict-ONBOARDING-NOT-CREATED"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"  
+
+###############################################################################
+# Upload VNF package from URI task                                            #
+###############################################################################         
+  '/vnf_packages/{vnfPkgId}/package_content/upload_from_uri':
+    #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.6   
+    post:
+      summary: Upload a VNF package by providing the address information of the VNF package.
+      description: >          
+        The POST method provides the information for the NFVO to get the content of a VNF package.
+        This method shall follow the provisions specified in the 
+        Tables 9.4.6.3.1-1 and 9.4.6.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.        
+      parameters:         
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - name: Content-Type
+        description: >
+          The MIME type of the body of the request.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string   
+        
+      - name: "vnfPkgId"
+        description: >
+          Identifier of the VNF package. The identifier is allocated by the NFVO.
+        in: "path"
+        required: true
+        type: "string"          
+        
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "UploadVnfPkgFromUriRequest"
+          properties:
+            UploadVnfPkgFromUriRequest:
+              $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/UploadVnfPkgFromUriRequest"
+          description: >
+            The payload body contains the address information based on
+            which the NFVO can obtain the content of the VNF package.         
+          
+      responses:
+        202:
+          description: >
+            202 Accepted
+            
+            The information about the VNF package was received
+            successfully, but the on-boarding has not been
+            completed. It is expected to take some time for processing.
+            The response body shall be empty.
+        409:
+          $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409-state-conflict-ONBOARDING-NOT-CREATED"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"          
+          
+###############################################################################          
+# Individual VNF package artifact                                             #     
+###############################################################################
+  '/vnf_packages/{vnfPkgId}/artifacts/{artifactPath}':
+   #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.7      
+   parameters:
+     - name: vnfPkgId
+       description: >
+         Identifier of the on-boarded VNF package. 
+         The identifier is allocated by the NFVO.
+         This identifier can be retrieved from the "vnfPkgId" attribute in the VnfPackageOnboardingNotification or
+         VnfPackageChangeNotification.
+       in: path
+       type: string
+       required: true    
+     - name: artifactPath
+       description: >
+         Path of the artifact within the VNF package. 
+         This identifier can be retrieved from the "artifactPath" attribute of the applicable "additionalArtifacts" entry in
+         the body of the response to a GET request querying the "Individual VNF package" or the "VNF packages"
+         resource.
+       in: path
+       type: string
+       required: true
+   get:
+     summary: Fetch individual VNF package artifact.
+     description: >
+       The GET method fetches the content of an artifact within a VNF package.
+       This method shall follow the provisions specified in the 
+       Tables 9.4.7.3.2-1 and 9.4.7.3.2-2 for URI query parameters,
+       request and response data structures, and response codes.
+     parameters:
+       - name: Accept
+         description: >
+           Content-Types that are acceptable for the response.
+         in: header
+         required: true
+         type: string
+       - name: Authorization
+         description: >
+           The authorization token for the request.
+           Reference: IETF RFC 7235
+         in: header
+         required: false
+         type: string
+       - name: Range
+         description: >
+           The request may contain a "Range" HTTP header to obtain single
+           range of bytes from the VNF package file. This can be used to
+           continue an aborted transmission.
+           If the NFVO does not support range requests, it should return the
+           whole file with a 200 OK response instead.
+         in: header
+         type: string
+     responses:
+       200:
+         description: > 
+           200 OK
+            On success, the content of the artifact is returned.
+           The payload body shall contain a copy of the artifact file from
+           the VNF package, as defined by ETSI GS NFV-SOL 004.
+           The "Content-Type" HTTP header shall be set according to the
+           content type of the artifact file. If the content type cannot be
+           determined, the header shall be set to the value
+           "application/octet-stream".
+         headers:
+           Content-Type:
+             description: The MIME type of the body of the response.
+             type: string
+             maximum: 1
+             minimum: 1           
+           WWW-Authenticate:
+             type: "string"
+             description: >
+               Challenge if the corresponding HTTP request has not provided
+               authorization, or error details if the corresponding HTTP request
+               has provided an invalid authorization token.
+             maximum: 1
+             minimum: 0
+               
+       206:
+         description: > 
+           Partial Content.
+           On success, if the NFVO supports range requests, a single
+           consecutive byte range from the content of the VNF package file is
+           returned.
+           The response body shall contain the requested part of the VNF
+           package file.
+           The "Content-Range" HTTP header shall be provided according to
+           IETF RFC 7233.
+           The "Content-Type" HTTP header shall be set as defined above for
+           the "200 OK" response.
+         headers:
+           Content-Range:
+             type: string
+             maximum: 1
+             minimum: 1
+           Content-Type:
+             description: The MIME type of the body of the response.
+             type: string
+             maximum: 1
+             minimum: 1           
+           WWW-Authenticate:
+             type: "string"
+             description: >
+               Challenge if the corresponding HTTP request has not provided
+               authorization, or error details if the corresponding HTTP request
+               has provided an invalid authorization token.
+             maximum: 1
+             minimum: 0               
+       400:
+         $ref: "responses/SOL005_resp.yaml#/responses/400"
+       401:
+         $ref: "responses/SOL005_resp.yaml#/responses/401"
+       403:
+         $ref: "responses/SOL005_resp.yaml#/responses/403"
+       404:
+         $ref: "responses/SOL005_resp.yaml#/responses/404"
+       405:
+         $ref: "responses/SOL005_resp.yaml#/responses/405"
+       406:
+         $ref: "responses/SOL005_resp.yaml#/responses/406"
+       409:
+         $ref: "responses/VNFPackageManagement_resp.yaml#/responses/409"
+       416:
+         $ref: "responses/SOL005_resp.yaml#/responses/416"
+       500:
+         $ref: "responses/SOL005_resp.yaml#/responses/500"
+       503:
+         $ref: "responses/SOL005_resp.yaml#/responses/503"
+         
+##############################################################################
+# Subscriptions                                                               #
+###############################################################################
+  '/subscriptions':
+   #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.8   
+    post:
+      summary: Subscribe to notifications related to on-boarding and/or changes of VNF packages.
+      description: >   
+        The POST method creates a new subscription.
+        This method shall follow the provisions specified in the Tables 9.4.8.3.1-1 and 9.4.8.3.1-2 for URI query parameters,
+        request and response data structures, and response codes.
+        Creation of two subscription resources with the same callbackURI and the same filter can result in performance
+        degradation and will provide duplicates of notifications to the OSS, and might make sense only in very rare use cases.
+        Consequently, the NFVO may either allow creating a subscription resource if another subscription resource with the
+        same filter and callbackUri already exists (in which case it shall return the "201 Created" response code), or may decide
+        to not create a duplicate subscription resource (in which case it shall return a "303 See Other" response code referencing
+        the existing subscription resource with the same filter and callbackUri).
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      - name: Content-Type
+        description: >
+          The MIME type of the body of the request.
+          Reference: IETF RFC 7231
+        in: header
+        required: true
+        type: string
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "PkgmSubscriptionRequest"
+          properties:
+            PkgmSubscriptionRequest:
+              $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/PkgmSubscriptionRequest"
+          description: >
+            Representation of the created subscription resource.
+            The HTTP response shall include a "Location" HTTP header that
+            points to the created subscription resource.
+            
+      responses:
+        201:
+          description: >
+            201 Created
+            
+            Representation of the created subscription resource.
+            The HTTP response shall include a "Location"
+            HTTP header that points to the created subscription resource.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0              
+          schema:
+            type: array
+            items:
+              properties:
+                PkgmSubscription:
+                  $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+        303:
+          $ref: "responses/SOL005_resp.yaml#/responses/303"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"
+    get:
+      summary: Query multiple subscriptions.
+      description: >   
+        The GET method queries the list of active subscriptions of the functional block that invokes the method. It can be used
+        e.g. for resynchronization after error situations.
+        This method shall follow the provisions specified in the 
+        Tables 9.4.7.8.2-1 and 9.4.8.3.2-2 for URI query parameters,
+        request and response data structures, and response codes.
+      parameters:
+        - name: "filter"
+          in: "query"
+          required: false
+          type: "string"
+          description: >  
+            Attribute-based filtering parameters according to clause 4.3.2.
+            The NFVO shall support receiving filtering parameters as part of the URI query
+            string. The OSS/BSS may supply filtering parameters.
+            All attribute names that appear in the PkgmSubscription and in data types
+            referenced from it shall be supported in attribute-based filtering parameters            
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+            
+            Active subscriptions of the functional block that invokes the method.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0              
+          schema:
+            type: array
+            items:
+              properties:
+                PkgmSubscription:
+                  $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"
+          
+###############################################################################
+# Individual subscription                                                     #
+###############################################################################
+  '/subscriptions/{subscriptionId}':
+   #ETSI GS NFV-SOL 005 V2.4.1 location: 9.4.9 
+    parameters:
+      - name: subscriptionId
+        description: >
+          Identifier of this subscription.
+          This identifier can be retrieved from the resource referenced by
+          the "Location" HTTP header in the response to a POST request
+          creating a new subscription resource. It can also be retrieved from
+          the "id" attribute in the payload body of that response.
+        in: path
+        type: string
+        required: true
+    get:
+      summary: Read an individual subscription resource.  
+      description: >
+        Query Subscription Information
+        The GET method reads an individual subscription.
+      parameters:
+        - name: Accept
+          description: >
+            Content-Types that are acceptable for the response.
+            Reference: IETF RFC 7231
+          in: header
+          required: true
+          type: string
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+      responses:
+        200:
+          description: >
+            200 OK
+            
+            Representation of the subscription resource.
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0            
+          schema:
+            properties:
+              PkgmSubscription:
+                $ref: "definitions/SOL005VNFPackageManagement_def.yaml#/definitions/PkgmSubscription"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"
+    delete:
+      summary: Terminate a subscription.
+      description: >      
+        The DELETE method terminates an individual subscription.
+      parameters:
+        - name: Authorization
+          description: >
+            The authorization token for the request.
+            Reference: IETF RFC 7235
+          in: header
+          required: false
+          type: string
+      responses:
+        204:
+          description: > 
+            No Content
+
+            The subscription resource was deleted successfully.
+          headers:
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503"

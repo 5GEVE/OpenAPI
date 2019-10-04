@@ -1,0 +1,426 @@
+ # Copyright (c) ETSI 2017.
+ # https://forge.etsi.org/etsi-forge-copyright-notice.txt
+ responses:
+   202:
+     description: >
+       Accepted
+
+       The request was accepted for processing, but processing has not
+       been completed. The response shall have an empty payload body.
+     headers:
+      Location:
+        description: The resource URI of the created NS instance
+        type: string
+        format: url
+      WWW-Authenticate:
+        description: >
+          Challenge if the corresponding HTTP request has not provided
+          authorization, or error details if the corresponding HTTP
+          request has provided an invalid authorization token.
+        type: string
+        maximum: 1
+        minimum: 0
+   202-with-Location:
+     description: > 
+       Accepted
+
+       The request was accepted for processing, but the processing has not
+       been completed. On success, the HTTP response shall include a
+       "Location" HTTP header that contains the URI of the newly-created
+       "NS Descriptor operation occurrence" resource corresponding to the
+       operation.
+     headers:     
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       Location:
+         description: The resource URI of the created NS instance
+         type: string
+         format: url
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+   206:
+     description: >
+       Partial Content.
+       
+       On success, if the NFVO supports range requests, a
+       single consecutive byte range from the content of the
+       NSD file is returned.
+       The response body shall contain the requested part of
+       the NSD file.
+       The "Content-Range" HTTP header shall be provided
+       according to IETF RFC 7233 [23].
+       The "Content-Type" HTTP header shall be set as
+       defined above for the "200 OK" response.      
+     headers:
+       Content-Range:
+         type: "string"
+       Content-Type:
+         type: "string"
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"         
+   303:
+     description: >
+       See Other
+       A subscription with the same callbackURI and the same filter already
+       exists and the policy of the VNFM is to not create redundant
+       subscriptions.
+       The HTTP response shall include a "Location" HTTP header that contains
+       the resource URI of the existing subscription resource.
+       The response body shall be empty.
+   400:
+     description: >
+       Bad Request.
+       
+       Error: Invalid attribute-based filtering parameters.
+       The response body shall contain a ProblemDetails
+       structure, in which the "detail" attribute should convey
+       more information about the error.       
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"       
+   400-attr-based-filtering-error:
+     description: >
+       Bad Request
+       Invalid attribute-based filtering parameters or Invalid attribute
+       selector.
+       It the request is malformed or syntactically incorrect (e.g. if the
+       request URI contains incorrect query parameters or a syntactically
+       incorrect payload body), the API producer shall respond with this
+       response code. The "ProblemDetails" structure shall be provided,
+       and should include in the "detail" attribute more information about
+       the source of the problem.
+       If the request contains a malformed access token, the API producer
+       should respond with this response. The details of the error shall
+       be returned in the WWW-Authenticate HTTP header, as defined in
+       IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be
+       provided.
+       If there is an application error related to the client's input that
+       cannot be easily mapped to any other HTTP response code ("catch all
+       error"), the API producer shall respond with this response code.The
+       "ProblemDetails" structure shall be provided, and shall include in
+       the "detail" attribute more information about the source of the
+       problem.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   400-attr-selector:
+     description: >
+       Bad Request
+       If the request is malformed or syntactically incorrect (e.g. if the
+       request URI contains incorrect query parameters or a syntactically
+       incorrect payload body), the API producer shall respond with this
+       response code. The "ProblemDetails" structure shall be provided,
+       and should include in the "detail" attribute more information about
+       the source of the problem.
+       If the request contains a malformed access token, the API producer
+       should respond with this response. The details of the error shall
+       be returned in the WWW-Authenticate HTTP header, as defined in
+       IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be
+       provided.
+       If there is an application error related to the client's input that
+       cannot be easily mapped to any other HTTP response code ("catch all
+       error"), the API producer shall respond with this response code.The
+       "ProblemDetails" structure shall be provided, and shall include in
+       the "detail" attribute more information about the source of the
+       problem.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   401:
+     description: >
+       Unauthorized
+       If the request contains no access token even though one is
+       required, or if the request contains an authorization token that
+       is invalid (e.g. expired or revoked), the API producer should
+       respond with this response. The details of the error shall be
+       returned in the WWW-Authenticate HTTP header, as defined in
+       IETF RFC 6750 and IETF RFC 7235. The ProblemDetails
+       structure may be provided.
+     headers:
+       Content-Type:
+         type: string
+         description: The MIME type of the body of the response.         
+       WWW-Authenticate:
+         type: string
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails" 
+   403:
+     description: >
+       Forbidden
+       If the API consumer is not allowed to perform a particular request
+       to a particular resource, the API producer shall respond with this
+       response code. The "ProblemDetails" structure shall be provided. 
+       It should include in the "detail" attribute information about the
+       source of the problem, and may indicate how to solve it.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   404:
+     description: >
+       Not Found
+       If the API producer did not find a current representation for the
+       resource addressed by the URI passed in the request, or is not
+       willing to disclose that one exists, it shall respond with this
+       response code. 
+       The "ProblemDetails" structure may be provided,
+       including in the "detail" attribute information about the source
+       of the problem, e.g. a wrong resource URI variable.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   404-task-resource-not-exists:
+     description: >
+       Not Found
+       Error: The API producer did not find a current representation for the
+       target resource or is not willing to disclose that one exists.
+       Specifically in case of this task resource, the  response code 404 shall
+       also returned if the task is not supported for the NS instance
+       represented by the parent resource, which means that the task resource
+       consequently does not exist. 
+       In this case, the response body shall be present, and shall contain a
+       ProblemDetails structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   404-task-resource-not-exists-NSD:
+     description: >
+       Not Found
+       Error: The API producer did not find a current representation for the
+       target resource or is not willing to disclose that one exists.
+       Specifically in case of this task resource, the  response code 404 shall
+       also be returned if the task is not supported for the NS Descriptor operation
+       occurrence represented by the parent resource, which means that the task
+       resource consequently does not exist. 
+       In this case, the response body shall be present, and shall contain a
+       ProblemDetails structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   404-task-not-suported:
+     description: >
+       Not Found
+       If the API producer did not find a current representation for the
+       resource addressed by the URI passed in the request, or is not
+       willing to disclose that one exists, it shall respond with this
+       response code. 
+       Specifically in case of this task resource, the reason can also be that
+       the task is not supported for the NS instance represented by the parent
+       resource, and that the task resource consequently does not exist.
+       The "ProblemDetails" structure may be provided, including in the
+       "detail" attribute information about the sourceof the problem, e.g. a
+       wrong resource URI variable.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   404-task-not-suported-NSD:
+     description: >
+       Not Found
+       If the API producer did not find a current representation for the
+       resource addressed by the URI passed in the request, or is not
+       willing to disclose that one exists, it shall respond with this
+       response code. 
+       Specifically in case of this task resource, the reason can also be that
+       the task is not supported for the NS Descriptor operation occurrence
+       represented by the parent resource, and that the task resource
+       consequently does not exist.
+       The "ProblemDetails" structure may be provided, including in the
+       "detail" attribute information about the sourceof the problem, e.g. a
+       wrong resource URI variable.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   405:
+     description: >
+       Method Not Allowed
+       If a particular HTTP method is not supported for a particular
+       resource, the API producer shall respond with this response code.
+       The "ProblemDetails" structure may be omitted in that case.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   406:
+     description: >
+       If the "Accept" header does not contain at least one
+       name of a content type for which the NFVO can
+       provide a representation of the VNFD, the NFVO
+       shall respond with this response code.        
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   412:
+     description: >
+       Precondition Failed
+       A precondition given in an HTTP request header is not fulfilled.
+       Typically, this is due to an ETag mismatch, indicating that the
+       resource was modified by another entity. The response body should
+       contain a ProblemDetails structure, in which the "detail" attribute
+       should convey more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails" 
+   416:
+     description: >
+       Requested Range Not Satisfiable
+       
+       The byte range passed in the "Range" header did not
+       match any available byte range in the VNF package
+       file (e.g. "access after end of file").
+       The response body may contain a ProblemDetails structure.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"         
+   422:
+     description: >
+       Un-processable Entity
+       If the payload body of a request contains syntactically correct
+       data (e.g. well-formed JSON) but the data cannot be processed
+       (e.g. because it fails validation against a schema), the API
+       producer shall respond with this response code. The
+       "ProblemDetails" structure shall be provided, and should include
+       in the "detail" attribute more information about the source of the
+       problem.
+       NOTE 2: This error response code is only applicable for methods
+       that have a request body.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   500:
+     description: >
+       Internal Server Error
+       If there is an application error not related to the client's input
+       that cannot be easily mapped to any other HTTP response code
+       ("catch all error"), the API producer shall respond withthis
+       response code. The ProblemDetails structure shall be provided,
+       and shall include in the "detail" attribute more information about
+       the source of the problem.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   503:
+     description: >
+       Service Unavailable
+       If the API producer encounters an internal overload situation of
+       itself or of a system it relies on, it should respond with this
+       response code, following the provisions in IETF RFC 7231 [13] for
+       the use of the Retry-After HTTP header and for the alternative
+       to refuse the connection. The "ProblemDetails" structure may be omitted.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"

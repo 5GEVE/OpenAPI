@@ -1,0 +1,292 @@
+ responses:
+   202-with-Location:
+     description: > 
+       Accepted
+       
+       The request was accepted for processing, but the processing has not 
+       been completed. The response body shall be empty.
+       The HTTP response shall include a "Location" HTTP
+       header that contains the URI of the newly-created
+       "NS lifecycle operation occurrence" resource
+       corresponding to the operation.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       Location:
+         description: The resource URI of the created NS instance
+         type: string
+         format: url
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005NSLifecycleManagement_def.yaml#/definitions/NsInstance"
+   202-with-Location-empty:
+     description: > 
+       Accepted
+ 
+       The request was accepted for processing, but the processing has not
+       been completed. On success, the HTTP response shall include a
+       "Location" HTTP header that contains the URI of the newly-created
+       "NS Descriptor operation occurrence" resource corresponding to the
+       operation.
+       The response body shall be empty.
+     headers:
+       Location:
+         description: The resource URI of the created NS instance
+         type: string
+         format: url
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+   409:
+     description: >
+       Conflict
+ 
+       Error: The operation cannot be executed currently,
+       due to a conflict with the state of the resource.
+       Typically, this is due to the fact the NS descriptor
+       resource is in the enabled operational state (i.e.
+       operationalState = ENABLED) or there are running
+       NS instances using the concerned individual NS
+       descriptor resource (i.e. usageState = IN_USE).
+       The response body shall contain a ProblemDetails
+       structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-another-nsd-operation-ongoing:
+     description: >
+       Conflict
+ 
+       The operation cannot be executed currently, due to a conflict with the
+       state of the NS instance resource.
+       Typically, this is due to the fact that another Descriptor operation is
+       ongoing.
+       The response body shall contain a ProblemDetails structure, in which the
+       "detail" attribute should convey more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-inconsistent-state:
+     description: >
+       Conflict
+ 
+       Another request is in progress that prohibits the fulfillment of
+       the current request, or the current resource state is inconsistent
+       with the request.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-state-conflict-INSTANTIATED:
+     description: >
+       Conflict
+ 
+       The operation cannot be executed currently, due to a conflict with the
+       state of the NS instance resource.
+       Typically, this is due to the fact that the NS instance resource is in
+       INSTANTIATED state.
+       The response body shall contain a ProblemDetails structure, in which the
+       "detail" attribute should convey more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-state-conflict-not-FAILED_TEMP:
+     description: >
+       The operation cannot be executed currently, due to a conflict with the
+       state of the NS instance resource.
+       Typically, this is due to the fact that the NS instance resource is
+       not in FAILED_TEMP state, or another error handling action is starting,
+       such as rollback or fail.
+       The response body shall contain a ProblemDetails structure, in which the
+       "detail" attribute should convey more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-state-conflict-NOT-INSTANTIATED:
+     description: >
+       Conflict
+ 
+       The operation cannot be executed currently, due to a conflict with the
+       state of the NS instance resource.
+       Typically, this is due to the fact that the NS instance resource is in
+       NOT-INSTANTIATED state, or that another lifecycle management operation
+       is ongoing.
+       The response body shall contain a ProblemDetails structure, in which the
+       "detail" attribute should convey more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"       
+   409-nsd-onboarding-state-NOT-ONBOARDED:
+     description: >
+       Conflict
+ 
+       Error: The operation cannot be executed currently,
+       due to a conflict with the state of the resource.
+       Typically, this is due to the fact "nsdOnboardingState"
+       has a value different from ONBOARDED.
+       The response body shall contain a ProblemDetails
+       structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-pnfd-onboarding-state-NOT-ONBOARDED:
+     description: >
+       Conflict
+ 
+       Error: The operation cannot be executed currently,
+       due to a conflict with the state of the resource.
+       Typically, this is due to the fact pnfdOnboardingState
+       has a value different from ONBOARDED.
+       The response body shall contain a ProblemDetails
+       structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
+   409-pnfd-onboarding-state-NOT-CREATED:
+     description: >
+       Conflict.
+ 
+       Error: The operation cannot be executed currently,
+       due to a conflict with the state of the resource.
+       Typically, this is due to the fact that the
+       PnfdOnboardingState has a value other than CREATED.
+       The response body shall contain a ProblemDetails
+       structure, in which the "detail" attribute shall convey
+       more information about the error.
+     headers:
+       Content-Type:
+         description: The MIME type of the body of the response.
+         type: string
+         maximum: 1
+         minimum: 1
+       WWW-Authenticate:
+         description: >
+           Challenge if the corresponding HTTP request has not provided
+           authorization, or error details if the corresponding HTTP
+           request has provided an invalid authorization token.
+         type: string
+         maximum: 1
+         minimum: 0
+     schema:
+       $ref: "../definitions/SOL005_def.yaml#/definitions/ProblemDetails"
