@@ -353,7 +353,7 @@
        If an API consumer requires the API producer to authorize for sending notifications to that API consumer, it shall
        include in the subscription request a data structure that defines the authorization requirements, as defined in
        Table 4.5.3.4-1.
-     type: "object"	
+     type: "object"
      required:
      - "authType"
      properties:
