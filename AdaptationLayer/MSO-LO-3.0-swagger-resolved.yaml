@@ -5,7 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: "2.0"
+  version: "3.0"
 servers:
 - url: /api
   description: SwaggerHub API Auto Mocking
@@ -324,8 +324,6 @@ paths:
         explode: false
         schema:
           type: string
-      requestBody:
-        $ref: '#/components/requestBodies/InstantiateNsRequest'
       responses:
         202:
           description: |
@@ -835,7 +833,6 @@ components:
       - nsInstanceName
       - nsState
       - nsdId
-      - nsdInfoId
       type: object
       properties:
         id:
@@ -852,81 +849,8 @@ components:
           type: string
           description: Identifier of the NSD on which the NS instance is based.
           format: uuid
-        flavourId:
-          type: string
-          description: |
-            Identifier of the NS deployment flavour applied to the NS instance.
-            This attribute shall be present if the nsState attribute value is
-            INSTANTIATED.
-        vnfInstance:
-          type: array
-          description: |
-            Information on constituent VNF(s) of the NS instance. If the
-            "nsState" attribute is INSTANTIATED, at least either one
-            "vnfInstance" attribute or one "nestedNsInstanceId" attribute shall
-            be present.
-          items:
-            $ref: '#/components/schemas/VnfInstance'
-        pnfInfo:
-          type: array
-          description: |
-            Information on the PNF(s) that are part of the NS instance.
-          items:
-            $ref: '#/components/schemas/PnfInfo'
-        virtualLinkInfo:
-          type: array
-          description: |
-            Information on the VL(s) of the NS instance. This attribute shall
-            be present if the nsState attribute value is INSTANTIATED and if
-            the NS instance has specified connectivity.
-          items:
-            $ref: '#/components/schemas/NsVirtualLinkInfo'
-        vnffgInfo:
-          type: array
-          description: |
-            Information on the VNFFG(s) of the NS instance.
-          items:
-            $ref: '#/components/schemas/VnffgInfo'
-        sapInfo:
-          type: array
-          description: |
-            Information on the SAP(s) of the NS instance.
-          items:
-            $ref: '#/components/schemas/SapInfo'
-        nestedNsInstanceId:
-          type: array
-          description: |
-            Identifier of the nested NS(s) of the NS instance. If the "nsState"
-            attribute is INSTANTIATED, at least either one "vnfInstance"
-            attribute or one "nestedNsInstanceId" attribute shall be present.
-          items:
-            type: string
-            format: uuid
         nsState:
           $ref: '#/components/schemas/NsStateType'
-        monitoringParameter:
-          type: array
-          description: |
-            Performance metrics tracked by the NFVO (e.g. for auto-scaling purposes) as identified by the NS designer in the NSD.
-          items:
-            $ref: '#/components/schemas/NsInstance_monitoringParameter'
-        nsScaleStatus:
-          type: array
-          description: |
-            Status of each NS scaling aspect declared in the applicable DF,
-            how "big" the NS instance has been scaled w.r.t. that aspect. This
-            attribute shall be present if the nsState attribute value is
-            INSTANTIATED.
-          items:
-            $ref: '#/components/schemas/NsScaleInfo'
-        additionalAffinityOrAntiAffinityRule:
-          type: array
-          description: |
-            Information on the additional affinity or anti-affinity rule from
-            NS instantiation operation. Shall not conflict with rules already
-            specified in the NSD.
-          items:
-            $ref: '#/components/schemas/AffinityOrAntiAffinityRule'
     NsStateType:
       type: string
       description: "State of the NS instance. Permitted values:\n * `NOT_INSTANTIATED`:\
@@ -959,11 +883,15 @@ components:
     InstantiateNsRequest:
       required:
       - nsFlavourId
+      - nsInstantiationLevelId
       type: object
       properties:
         nsFlavourId:
           type: string
           description: Identifier of the NS deployment flavour to be instantiated.
+        nsInstantiationLevelId:
+          type: string
+          description: af
     ErrorResponse:
       type: object
       properties:
@@ -1082,26 +1010,6 @@ components:
           type: string
           description: |
             An identifier with the intention of being globally unique.
-    NsInstance_monitoringParameter:
-      required:
-      - id
-      - performanceMetric
-      type: object
-      properties:
-        id:
-          type: string
-          description: |
-            An identifier that is unique within a NS descriptor. Representation: string of variable length.
-        name:
-          type: string
-          description: |
-            Human readable name of the monitoring parameter, as defined in the NSD.
-        performanceMetric:
-          type: string
-          description: |
-            Performance metric that is monitored. This attribute shall contain the related  "Measurement Name" value as defined in clause 7.2 of ETSI GS NFV-IFA 027.
-      description: |
-        This type represents a monitoring parameter that is tracked by the NFVO, for example,  for auto-scaling purposes. It shall comply with the provisions defined in Table 6.5.3.68-1.
     ErrorResponse_details:
       type: object
       properties:
