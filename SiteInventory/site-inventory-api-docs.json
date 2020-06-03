@@ -3,7 +3,7 @@
     "swagger": "2.0",
     "info": {
         "description": "A storage component to store sites information in 5G EVE project",
-        "version": "0.0.9",
+        "version": "0.1.2",
         "title": "Site Inventory API",
         "license": {
             "name": "Apache 2.0"
@@ -25,12 +25,12 @@
             "description": "Lccn Subscription"
         },
         {
-            "name": "NfvOrchestrator Entity",
-            "description": "Nfv Orchestrator"
+            "name": "Network Entity",
+            "description": "Network"
         },
         {
-            "name": "NotificationType Entity",
-            "description": "Notification Type"
+            "name": "NfvOrchestrator Entity",
+            "description": "Nfv Orchestrator"
         },
         {
             "name": "RanOrchestrator Entity",
@@ -211,7 +211,11 @@
                         "in": "query",
                         "description": "location",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "CLOUD",
+                            "EDGE"
+                        ]
                     }
                 ],
                 "responses": {
@@ -753,13 +757,52 @@
                 "deprecated": false
             }
         },
-        "/dataShippers/search/findByMetricTypeIgnoreCase": {
+        "/dataShippers/search/findByDataShipperId": {
             "get": {
                 "tags": [
                     "DataShipper Entity"
                 ],
-                "summary": "findByMetricTypeIgnoreCaseDataShipper",
-                "operationId": "findByMetricTypeIgnoreCaseDataShipperUsingGET",
+                "summary": "findByDataShipperIdDataShipper",
+                "operationId": "findByDataShipperIdDataShipperUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "dataShipperId",
+                        "in": "query",
+                        "description": "dataShipperId",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«DataShipper»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/dataShippers/search/findByMetricType": {
+            "get": {
+                "tags": [
+                    "DataShipper Entity"
+                ],
+                "summary": "findByMetricTypeDataShipper",
+                "operationId": "findByMetricTypeDataShipperUsingGET",
                 "produces": [
                     "*/*"
                 ],
@@ -769,7 +812,18 @@
                         "in": "query",
                         "description": "metricType",
                         "required": false,
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "LOST_PKT",
+                            "RECEIVED_PKT",
+                            "SENT_PKT",
+                            "BANDWIDTH",
+                            "LATENCY",
+                            "JITTER",
+                            "CPU_CONSUMPTION",
+                            "MEMORY_CONSUMPTION",
+                            "OTHER"
+                        ]
                     }
                 ],
                 "responses": {
@@ -1473,6 +1527,525 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/networks": {
+            "get": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "findAllNetwork",
+                "operationId": "findAllNetworkUsingGET",
+                "produces": [
+                    "application/json",
+                    "application/hal+json",
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "sort",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Network»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "saveNetwork",
+                "operationId": "saveNetworkUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Network"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Network»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/networks/{id}": {
+            "get": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "findByIdNetwork",
+                "operationId": "findByIdNetworkUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Network»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "saveNetwork",
+                "operationId": "saveNetworkUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Network"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Network»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "deleteNetwork",
+                "operationId": "deleteNetworkUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "saveNetwork",
+                "operationId": "saveNetworkUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Network"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Network»"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/networks/{id}/site": {
+            "get": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "networkSite",
+                "operationId": "networkSiteUsingGET",
+                "produces": [
+                    "application/hal+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Site»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "networkSite",
+                "operationId": "networkSiteUsingPOST",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Site»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "networkSite",
+                "operationId": "networkSiteUsingPUT",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Site»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "networkSite",
+                "operationId": "networkSiteUsingDELETE",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "Network Entity"
+                ],
+                "summary": "networkSite",
+                "operationId": "networkSiteUsingPATCH",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Site»"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 },
                 "deprecated": false
@@ -2701,630 +3274,6 @@
                         "name": "vimaccountId",
                         "in": "path",
                         "description": "vimaccountId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/notificationTypes": {
-            "get": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "findAllNotificationType",
-                "operationId": "findAllNotificationTypeUsingGET",
-                "produces": [
-                    "application/json",
-                    "application/hal+json",
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "page",
-                        "required": false,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "size",
-                        "in": "query",
-                        "description": "size",
-                        "required": false,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    {
-                        "name": "sort",
-                        "in": "query",
-                        "description": "sort",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«NotificationType»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "post": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "saveNotificationType",
-                "operationId": "saveNotificationTypeUsingPOST",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/NotificationType"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«NotificationType»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/notificationTypes/{id}": {
-            "get": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "findByIdNotificationType",
-                "operationId": "findByIdNotificationTypeUsingGET",
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«NotificationType»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "put": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "saveNotificationType",
-                "operationId": "saveNotificationTypeUsingPUT",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/NotificationType"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«NotificationType»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "delete": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "deleteNotificationType",
-                "operationId": "deleteNotificationTypeUsingDELETE",
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            },
-            "patch": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "saveNotificationType",
-                "operationId": "saveNotificationTypeUsingPATCH",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/NotificationType"
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«NotificationType»"
-                        }
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/notificationTypes/{id}/subscriptions": {
-            "get": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingGET",
-                "produces": [
-                    "application/hal+json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«LccnSubscription»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "post": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingPOST",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«LccnSubscription»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "put": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingPUT",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«LccnSubscription»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "delete": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingDELETE_1",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            },
-            "patch": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingPATCH",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«LccnSubscription»"
-                        }
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/notificationTypes/{id}/subscriptions/{lccnsubscriptionId}": {
-            "get": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingGET_1",
-                "consumes": [
-                    "application/hal+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "lccnsubscriptionId",
-                        "in": "path",
-                        "description": "lccnsubscriptionId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«LccnSubscription»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "delete": {
-                "tags": [
-                    "NotificationType Entity"
-                ],
-                "summary": "notificationTypeSubscriptions",
-                "operationId": "notificationTypeSubscriptionsUsingDELETE",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "lccnsubscriptionId",
-                        "in": "path",
-                        "description": "lccnsubscriptionId",
                         "required": true,
                         "type": "string"
                     }
@@ -4891,6 +4840,45 @@
                 "deprecated": false
             }
         },
+        "/sites/search/findByNameIgnoreCase": {
+            "get": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "findByNameIgnoreCaseSite",
+                "operationId": "findByNameIgnoreCaseSiteUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Site»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
         "/sites/{id}": {
             "get": {
                 "tags": [
@@ -5393,6 +5381,349 @@
                         "required": true,
                         "type": "integer",
                         "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/sites/{id}/networks": {
+            "get": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingGET",
+                "produces": [
+                    "application/hal+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Network»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "post": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingPOST",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Network»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingPUT",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Network»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingDELETE_1",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            },
+            "patch": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingPATCH",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«Network»"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/sites/{id}/networks/{networkId}": {
+            "get": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingGET_1",
+                "consumes": [
+                    "application/hal+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "networkId",
+                        "in": "path",
+                        "description": "networkId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EntityModel«Network»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            },
+            "delete": {
+                "tags": [
+                    "Site Entity"
+                ],
+                "summary": "siteNetworks",
+                "operationId": "siteNetworksUsingDELETE",
+                "consumes": [
+                    "text/uri-list",
+                    "application/x-spring-data-compact+json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "networkId",
+                        "in": "path",
+                        "description": "networkId",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -6201,6 +6532,46 @@
                 "deprecated": false
             }
         },
+        "/subscriptions/search/findByNsInstanceId": {
+            "get": {
+                "tags": [
+                    "LccnSubscription Entity"
+                ],
+                "summary": "findByNsInstanceIdLccnSubscription",
+                "operationId": "findByNsInstanceIdLccnSubscriptionUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "nsInstanceId",
+                        "in": "query",
+                        "description": "nsInstanceId",
+                        "required": false,
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CollectionModel«LccnSubscription»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "deprecated": false
+            }
+        },
         "/subscriptions/{id}": {
             "get": {
                 "tags": [
@@ -6701,349 +7072,6 @@
                         "name": "nfvorchestratorId",
                         "in": "path",
                         "description": "nfvorchestratorId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/subscriptions/{id}/notificationTypes": {
-            "get": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingGET",
-                "produces": [
-                    "application/hal+json"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«NotificationType»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "post": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingPOST",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«NotificationType»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "put": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingPUT",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«NotificationType»"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "delete": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingDELETE_1",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            },
-            "patch": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingPATCH",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/CollectionModel«NotificationType»"
-                        }
-                    },
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/subscriptions/{id}/notificationTypes/{notificationtypeId}": {
-            "get": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingGET_1",
-                "consumes": [
-                    "application/hal+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "notificationtypeId",
-                        "in": "path",
-                        "description": "notificationtypeId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/EntityModel«NotificationType»"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            },
-            "delete": {
-                "tags": [
-                    "LccnSubscription Entity"
-                ],
-                "summary": "lccnSubscriptionNotificationTypes",
-                "operationId": "lccnSubscriptionNotificationTypesUsingDELETE",
-                "consumes": [
-                    "text/uri-list",
-                    "application/x-spring-data-compact+json"
-                ],
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "name": "notificationtypeId",
-                        "in": "path",
-                        "description": "notificationtypeId",
                         "required": true,
                         "type": "string"
                     }
@@ -8024,7 +8052,11 @@
                     "format": "double"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "CLOUD",
+                        "EDGE"
+                    ]
                 },
                 "longitude": {
                     "type": "number",
@@ -8114,6 +8146,32 @@
             },
             "description": "Resources of LccnSubscription"
         },
+        "CollectionModel«Network»": {
+            "type": "object",
+            "required": [
+                "_embedded",
+                "_links"
+            ],
+            "properties": {
+                "_embedded": {
+                    "$ref": "#/definitions/EmbeddedCollection«Network»"
+                },
+                "_links": {
+                    "type": "object",
+                    "description": "Link collection",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Link"
+                    }
+                }
+            },
+            "title": "CollectionModel«Network»",
+            "xml": {
+                "name": "entities",
+                "attribute": false,
+                "wrapped": false
+            },
+            "description": "Resources of Network"
+        },
         "CollectionModel«NfvOrchestrator»": {
             "type": "object",
             "required": [
@@ -8139,32 +8197,6 @@
                 "wrapped": false
             },
             "description": "Resources of NfvOrchestrator"
-        },
-        "CollectionModel«NotificationType»": {
-            "type": "object",
-            "required": [
-                "_embedded",
-                "_links"
-            ],
-            "properties": {
-                "_embedded": {
-                    "$ref": "#/definitions/EmbeddedCollection«NotificationType»"
-                },
-                "_links": {
-                    "type": "object",
-                    "description": "Link collection",
-                    "additionalProperties": {
-                        "$ref": "#/definitions/Link"
-                    }
-                }
-            },
-            "title": "CollectionModel«NotificationType»",
-            "xml": {
-                "name": "entities",
-                "attribute": false,
-                "wrapped": false
-            },
-            "description": "Resources of NotificationType"
         },
         "CollectionModel«RanOrchestrator»": {
             "type": "object",
@@ -8281,7 +8313,8 @@
             ],
             "properties": {
                 "host": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
                 },
                 "id": {
                     "type": "integer",
@@ -8308,12 +8341,17 @@
         "DataShipper": {
             "type": "object",
             "required": [
-                "deviceId",
+                "configurationScript",
+                "dataShipperId",
                 "ipAddress",
-                "metricType"
+                "stopConfigScript",
+                "username"
             ],
             "properties": {
-                "deviceId": {
+                "configurationScript": {
+                    "type": "string"
+                },
+                "dataShipperId": {
                     "type": "string"
                 },
                 "id": {
@@ -8321,12 +8359,27 @@
                     "format": "int64"
                 },
                 "ipAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
                 },
                 "metricType": {
+                    "type": "string",
+                    "enum": [
+                        "LOST_PKT",
+                        "RECEIVED_PKT",
+                        "SENT_PKT",
+                        "BANDWIDTH",
+                        "LATENCY",
+                        "JITTER",
+                        "CPU_CONSUMPTION",
+                        "MEMORY_CONSUMPTION",
+                        "OTHER"
+                    ]
+                },
+                "password": {
                     "type": "string"
                 },
-                "publicKey": {
+                "stopConfigScript": {
                     "type": "string"
                 },
                 "username": {
@@ -8398,6 +8451,27 @@
             },
             "description": "Embedded collection of LccnSubscription"
         },
+        "EmbeddedCollection«Network»": {
+            "type": "object",
+            "required": [
+                "networks"
+            ],
+            "properties": {
+                "networks": {
+                    "type": "array",
+                    "description": "Resource collection",
+                    "items": {
+                        "$ref": "#/definitions/Network"
+                    }
+                }
+            },
+            "title": "EmbeddedCollection«Network»",
+            "xml": {
+                "name": "content",
+                "wrapped": true
+            },
+            "description": "Embedded collection of Network"
+        },
         "EmbeddedCollection«NfvOrchestrator»": {
             "type": "object",
             "required": [
@@ -8418,27 +8492,6 @@
                 "wrapped": true
             },
             "description": "Embedded collection of NfvOrchestrator"
-        },
-        "EmbeddedCollection«NotificationType»": {
-            "type": "object",
-            "required": [
-                "notificationTypes"
-            ],
-            "properties": {
-                "notificationTypes": {
-                    "type": "array",
-                    "description": "Resource collection",
-                    "items": {
-                        "$ref": "#/definitions/NotificationType"
-                    }
-                }
-            },
-            "title": "EmbeddedCollection«NotificationType»",
-            "xml": {
-                "name": "content",
-                "wrapped": true
-            },
-            "description": "Embedded collection of NotificationType"
         },
         "EmbeddedCollection«RanOrchestrator»": {
             "type": "object",
@@ -8543,7 +8596,11 @@
                     "$ref": "#/definitions/Links"
                 },
                 "location": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "CLOUD",
+                        "EDGE"
+                    ]
                 },
                 "longitude": {
                     "type": "number",
@@ -8558,12 +8615,17 @@
         "EntityModel«DataShipper»": {
             "type": "object",
             "required": [
-                "deviceId",
+                "configurationScript",
+                "dataShipperId",
                 "ipAddress",
-                "metricType"
+                "stopConfigScript",
+                "username"
             ],
             "properties": {
-                "deviceId": {
+                "configurationScript": {
+                    "type": "string"
+                },
+                "dataShipperId": {
                     "type": "string"
                 },
                 "id": {
@@ -8571,15 +8633,30 @@
                     "format": "int64"
                 },
                 "ipAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
                 },
                 "links": {
                     "$ref": "#/definitions/Links"
                 },
                 "metricType": {
+                    "type": "string",
+                    "enum": [
+                        "LOST_PKT",
+                        "RECEIVED_PKT",
+                        "SENT_PKT",
+                        "BANDWIDTH",
+                        "LATENCY",
+                        "JITTER",
+                        "CPU_CONSUMPTION",
+                        "MEMORY_CONSUMPTION",
+                        "OTHER"
+                    ]
+                },
+                "password": {
                     "type": "string"
                 },
-                "publicKey": {
+                "stopConfigScript": {
                     "type": "string"
                 },
                 "username": {
@@ -8605,11 +8682,58 @@
                 "links": {
                     "$ref": "#/definitions/Links"
                 },
+                "notificationTypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "NsLcmOperationOccurrenceNotification",
+                            "NsIdentifierCreationNotification",
+                            "NsIdentifierDeletionNotification"
+                        ]
+                    }
+                },
                 "nsInstanceId": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                 }
             },
             "title": "EntityModel«LccnSubscription»"
+        },
+        "EntityModel«Network»": {
+            "type": "object",
+            "required": [
+                "external_net",
+                "floating_ip",
+                "mgmt_net",
+                "vim_network_name"
+            ],
+            "properties": {
+                "cidr": {
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/(\\d|[1-2]\\d|3[0-2]))$"
+                },
+                "external_net": {
+                    "type": "boolean"
+                },
+                "floating_ip": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "links": {
+                    "$ref": "#/definitions/Links"
+                },
+                "mgmt_net": {
+                    "type": "boolean"
+                },
+                "vim_network_name": {
+                    "type": "string"
+                }
+            },
+            "title": "EntityModel«Network»"
         },
         "EntityModel«NfvOrchestrator»": {
             "type": "object",
@@ -8638,7 +8762,11 @@
                     "type": "string"
                 },
                 "operationalState": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "ENABLED",
+                        "DISABLED"
+                    ]
                 },
                 "type": {
                     "type": "string"
@@ -8655,25 +8783,6 @@
                 }
             },
             "title": "EntityModel«NfvOrchestrator»"
-        },
-        "EntityModel«NotificationType»": {
-            "type": "object",
-            "required": [
-                "type"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "links": {
-                    "$ref": "#/definitions/Links"
-                },
-                "type": {
-                    "type": "string"
-                }
-            },
-            "title": "EntityModel«NotificationType»"
         },
         "EntityModel«RanOrchestrator»": {
             "type": "object",
@@ -8750,6 +8859,7 @@
         "EntityModel«Site»": {
             "type": "object",
             "required": [
+                "kafkaIpAddress",
                 "location",
                 "name"
             ],
@@ -8757,6 +8867,10 @@
                 "id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "kafkaIpAddress": {
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
                 },
                 "links": {
                     "$ref": "#/definitions/Links"
@@ -8818,8 +8932,20 @@
                     "type": "integer",
                     "format": "int64"
                 },
+                "notificationTypes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "NsLcmOperationOccurrenceNotification",
+                            "NsIdentifierCreationNotification",
+                            "NsIdentifierDeletionNotification"
+                        ]
+                    }
+                },
                 "nsInstanceId": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                 }
             },
             "title": "LccnSubscription"
@@ -8933,6 +9059,38 @@
             },
             "title": "ModelAndView"
         },
+        "Network": {
+            "type": "object",
+            "required": [
+                "external_net",
+                "floating_ip",
+                "mgmt_net",
+                "vim_network_name"
+            ],
+            "properties": {
+                "cidr": {
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/(\\d|[1-2]\\d|3[0-2]))$"
+                },
+                "external_net": {
+                    "type": "boolean"
+                },
+                "floating_ip": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "mgmt_net": {
+                    "type": "boolean"
+                },
+                "vim_network_name": {
+                    "type": "string"
+                }
+            },
+            "title": "Network"
+        },
         "NfvOrchestrator": {
             "type": "object",
             "required": [
@@ -8957,7 +9115,11 @@
                     "type": "string"
                 },
                 "operationalState": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "ENABLED",
+                        "DISABLED"
+                    ]
                 },
                 "type": {
                     "type": "string"
@@ -8974,22 +9136,6 @@
                 }
             },
             "title": "NfvOrchestrator"
-        },
-        "NotificationType": {
-            "type": "object",
-            "required": [
-                "type"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "type": {
-                    "type": "string"
-                }
-            },
-            "title": "NotificationType"
         },
         "RanOrchestrator": {
             "type": "object",
@@ -9069,6 +9215,7 @@
         "Site": {
             "type": "object",
             "required": [
+                "kafkaIpAddress",
                 "location",
                 "name"
             ],
@@ -9076,6 +9223,10 @@
                 "id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "kafkaIpAddress": {
+                    "type": "string",
+                    "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
                 },
                 "location": {
                     "type": "string"
@@ -9129,3 +9280,4 @@
     }
 
 }
+
