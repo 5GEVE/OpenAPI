@@ -1,0 +1,3176 @@
+{
+	"info": {
+		"_postman_id": "8c9e22ed-dc0d-4d72-add8-66171b5b59b3",
+		"name": "EVE_PORTAL_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "catalogue",
+			"item": [
+				{
+					"name": "GET_ALL_EXPBs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/expblueprint?Accept=application/json",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"expblueprint"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json"
+								}
+							]
+						},
+						"description": "Retrieve all the available EXPBs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_EXPB",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/expblueprint/{{expb_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"expblueprint",
+								"{{expb_id}}"
+							]
+						},
+						"description": "Retrieve an EXPB from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_CTXBs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/ctxblueprint",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"ctxblueprint"
+							]
+						},
+						"description": "Retrieve the available CTXBs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_CTXB",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/ctxblueprint/{{ctxb_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"ctxblueprint",
+								"{{ctxb_id}}"
+							]
+						},
+						"description": "Retrieve a CTXB from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_VSBs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/vsblueprint",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"vsblueprint"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available VSBs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_VSB",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/vsblueprint/{{vsb_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"vsblueprint",
+								"{{vsb_id}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a VSB from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_TCBs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/testcaseblueprint",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"testcaseblueprint"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available TCBs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_TCB",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/testcaseblueprint/{{tcb_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"testcaseblueprint",
+								"{{tcb_id}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a TCB from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_EXPDs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/expdescriptor",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"expdescriptor"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available EXPDs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_EXPD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/expdescriptor/{{expd_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"expdescriptor",
+								"{{expd_id}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve an EXPDs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_VSD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/vsdescriptor/{{vsd_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"vsdescriptor",
+								"{{vsd_id}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a VSD from the 5G EVE Portal catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_VSDs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/vsdescriptor",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"vsdescriptor"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available VSDs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_TCDs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/testcasedescriptor",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"testcasedescriptor"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available VSDs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_TCD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/testcasedescriptor",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"testcasedescriptor"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available VSDs from the EVE Portal Catalogue"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_CTXD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/ctxdescriptor/{{ctxd_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"ctxdescriptor",
+								"{{ctxd_id}}"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a CTXD from the EVE PORTAL CATALOGUE"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ALL_CTXDs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/catalogue/ctxdescriptor",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"catalogue",
+								"ctxdescriptor"
+							],
+							"query": [
+								{
+									"key": "Accept",
+									"value": "application/json",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve the available CTXDs from the EVE PORTAL CATALOGUE"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "lcm",
+			"item": [
+				{
+					"name": "CREATE_EXPERIMENT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d56a4093-1749-435c-bba8-dab2512e4f79",
+								"exec": [
+									"var jsonData = pm.response.text();",
+									"",
+									"console.log(\"received exp_id: \"+jsonData);",
+									"",
+									"pm.environment.set(\"exp_id\", jsonData);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "33510154-3037-4b0d-be9c-7da15faedf13",
+								"exec": [
+									"const moment = require('moment');",
+									"pm.globals.set(\"timestamp\", moment().format(\"MM/DD/YYYY\"));",
+									"//var startTime = new Date();",
+									"var startTime = moment().add(10,\"second\").format(\"YYYY-MM-DDTHH:mm:ss.255+02:00\")",
+									"var stopTime = moment().add(1,\"hour\").format(\"YYYY-MM-DDTHH:mm:ss.255+02:00\");",
+									"postman.setEnvironmentVariable(\"startTime\",startTime);",
+									"postman.setEnvironmentVariable(\"stopTime\",stopTime);",
+									"console.log(\"startTime: \"+JSON.stringify(startTime));",
+									"console.log(\"stopTime: \"+JSON.stringify(stopTime));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"experimentDescriptorId\": \"{{expd_id}}\",\n    \"experimentName\": \"{{experiment_name}}\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"{{startTime}}\",\n        \"stopTime\": \"{{stopTime}}\"\n    },\n    \"targetSites\": [\n        \n        \"{{target_site}}\"\n     \n        \n    ],\n    \"useCase\":\"Test\"\n}"
+						},
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentDescriptorId\": \"<string>\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"<dateTime>\",\n        \"stopTime\": \"<dateTime>\"\n    },\n    \"targetSites\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentDescriptorId\": \"<string>\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"<dateTime>\",\n        \"stopTime\": \"<dateTime>\"\n    },\n    \"targetSites\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentDescriptorId\": \"<string>\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"<dateTime>\",\n        \"stopTime\": \"<dateTime>\"\n    },\n    \"targetSites\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentDescriptorId\": \"<string>\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"<dateTime>\",\n        \"stopTime\": \"<dateTime>\"\n    },\n    \"targetSites\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentDescriptorId\": \"<string>\",\n    \"proposedTimeSlot\": {\n        \"startTime\": \"<dateTime>\",\n        \"stopTime\": \"<dateTime>\"\n    },\n    \"targetSites\": [\n        \"<string>\",\n        \"<string>\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "GET_ALL_EXPERIMENTS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expDId",
+									"value": "<string>",
+									"description": "expDId",
+									"disabled": true
+								},
+								{
+									"key": "expId",
+									"value": "<string>",
+									"description": "expId",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "GET_EXPERIMENT_BY_ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment?expId={{exp_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expDId",
+									"value": "<string>",
+									"description": "expDId",
+									"disabled": true
+								},
+								{
+									"key": "expId",
+									"value": "<string>",
+									"description": "expId",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expId",
+									"value": "{{exp_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "GET_EXPERIMENTS_BY_EXPD",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment?expdId={{expd_id}}",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expDId",
+									"value": "<string>",
+									"description": "expDId",
+									"disabled": true
+								},
+								{
+									"key": "expId",
+									"value": "<string>",
+									"description": "expId",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expdId",
+									"value": "{{expd_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&expDId=<string>&expId=<string>&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "expDId",
+											"value": "<string>"
+										},
+										{
+											"key": "expId",
+											"value": "<string>"
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "DEPLOY_EXPERIMENT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment/{{exp_id}}/action/deploy",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment",
+								"{{exp_id}}",
+								"action",
+								"deploy"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						}
+					]
+				},
+				{
+					"name": "EXECUTE_EXPERIMENT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"experimentId\": \"{{exp_id}}\",\n    \"testCaseDescriptorConfiguration\": {\n    \t\"{{tcd_id}}\":{\n    \t\t\"additionalProp1\": \"string\",\n    \t\t\"additionalProp2\": \"string\",\n    \t\t\"additionalProp3\": \"string\"\n    \t}\n    },\n\t\"executionName\":\"{{execution_name}}\"\n}"
+						},
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment/{{exp_id}}/action/execute",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment",
+								"{{exp_id}}",
+								"action",
+								"execute"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "TERMINATE_EXPERIMENT",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://portal.5g-eve.eu:443/portal/elm/experiment/{{exp_id}}/action/terminate",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"5g-eve",
+								"eu"
+							],
+							"port": "443",
+							"path": [
+								"portal",
+								"elm",
+								"experiment",
+								"{{exp_id}}",
+								"action",
+								"terminate"
+							],
+							"query": [
+								{
+									"key": "authenticated",
+									"value": "<boolean>",
+									"disabled": true
+								},
+								{
+									"key": "authorities[0].authority",
+									"value": "<string>",
+									"disabled": true
+								},
+								{
+									"key": "credentials",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "details",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "principal",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "<object>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"experimentId\": \"<string>\",\n    \"testCaseDescriptorConfiguration\": \"<object>\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/portal/elm/experiment/<string>/action/<string>?authenticated=<boolean>&authorities[0].authority=<string>&credentials=&details=&principal=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"portal",
+										"elm",
+										"experiment",
+										"<string>",
+										"action",
+										"<string>"
+									],
+									"query": [
+										{
+											"key": "authenticated",
+											"value": "<boolean>"
+										},
+										{
+											"key": "authorities[0].authority",
+											"value": "<string>"
+										},
+										{
+											"key": "credentials",
+											"value": ""
+										},
+										{
+											"key": "details",
+											"value": ""
+										},
+										{
+											"key": "principal",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d0713e4-4ee7-489e-9e44-673fddc67a43",
+						"exec": [
+							"const cookiejar = pm.cookies.jar();",
+							"var jsonData = pm.response.json();",
+							"console.log(\"received AUTH_SESSION_ID: \" + JSON.stringify(jsonData.access_token));",
+							"pm.environment.set(\"access_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{user}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://portal.5g-eve.eu:443/portal/rbac/login",
+					"protocol": "https",
+					"host": [
+						"portal",
+						"5g-eve",
+						"eu"
+					],
+					"port": "443",
+					"path": [
+						"portal",
+						"rbac",
+						"login"
+					]
+				},
+				"description": "Login request to be filled with the user information"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
