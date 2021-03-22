@@ -668,7 +668,99 @@ paths:
           $ref: "responses/SOL005_resp.yaml#/responses/500"
         503:
           $ref: "responses/SOL005_resp.yaml#/responses/503" 
-          
+
+    patch:
+      summary: Update the content of an existing NSD.
+      description: >  
+        "The PATCH method is used to updated the content of an existing NSD. The NSD
+        to be uploaded can be implemented as a single file or as a collection of
+        multiple files, as defined in clause 5.4.4.3.2 of GS NFV-SOL 005. 
+        If the NSD is implemented in the form of multiple files, a ZIP file embedding these
+        files shall be uploaded. 
+        If the NSD is implemented as a single file, either that file or a ZIP file 
+        embedding that file shall be uploaded. The "Content-Type"
+        HTTP header in the PATCH request shall be set accordingly based on the format
+        selection of the NSD. 
+        If the NSD to be uploaded is a text file, the "Content-Type"
+        header is set to "text/plain". 
+        If the NSD to be uploaded is a zip file,
+        the "Content-Type" header is set to "application/zip". 
+        This method shall follow the provisions specified in the Tables 5.4.4.3.3-1 and 5.4.4.3.3-2
+        of GS-NFV-SOL 005 for URI query parameters, request and response data structures,
+        and response codes."
+      parameters:
+      - name: Accept
+        description: >
+          Content-Types that are acceptable for the response.
+          The payload body contains a copy of the file representing the NSD
+          or a ZIP file that contains the file or multiple files representing the NSD.
+        in: header
+        required: true
+        type: string
+        enum: 
+          - text/plain
+          - application/zip
+      - name: Authorization
+        description: >
+          The authorization token for the request.
+          Reference: IETF RFC 7235
+        in: header
+        required: false
+        type: string
+      responses:
+        202:
+          description: >  
+            202 Accepted
+            
+            The NSD content was accepted for updating, but the
+            processing has not been completed. It is expected to
+            take some time for processing (asynchronous mode).
+            
+            The response body shall be empty. 
+          headers:
+            Content-Type:
+              description: The MIME type of the body of the response.
+              type: string
+              maximum: 1
+              minimum: 1
+            WWW-Authenticate:
+              type: "string"
+              description: >
+                Challenge if the corresponding HTTP request has not provided
+                authorization, or error details if the corresponding HTTP request
+                has provided an invalid authorization token.
+              maximum: 1
+              minimum: 0
+        204:
+          description: >  
+            204 No Content
+            
+            The NSD content was successfully updated and validated (synchronous mode). 
+            The response body shall be empty.
+        206:
+          $ref: "responses/SOL005_resp.yaml#/responses/206"
+        400:
+          $ref: "responses/SOL005_resp.yaml#/responses/400-attr-selector"
+        401:
+          $ref: "responses/SOL005_resp.yaml#/responses/401"
+        403:
+          $ref: "responses/SOL005_resp.yaml#/responses/403"
+        404:
+          $ref: "responses/SOL005_resp.yaml#/responses/404"
+        405:
+          $ref: "responses/SOL005_resp.yaml#/responses/405"
+        406:
+          $ref: "responses/SOL005_resp.yaml#/responses/406"
+        409:
+          $ref: "responses/NSDescriptorManagement_resp.yaml#/responses/409-nsd-onboarding-state-NOT-ONBOARDED"
+        412:
+          $ref: "responses/SOL005_resp.yaml#/responses/412"         
+        416:
+          $ref: "responses/SOL005_resp.yaml#/responses/416"
+        500:
+          $ref: "responses/SOL005_resp.yaml#/responses/500"
+        503:
+          $ref: "responses/SOL005_resp.yaml#/responses/503" 
      
 ###############################################################################
 # PNF Descriptors                                                             #
